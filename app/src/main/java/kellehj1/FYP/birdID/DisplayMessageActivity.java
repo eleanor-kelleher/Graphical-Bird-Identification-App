@@ -1,10 +1,12 @@
-package com.example.myfirstapp;
+package kellehj1.FYP.birdID;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import kellehj1.FYP.birdID.R;
 
 public class DisplayMessageActivity extends AppCompatActivity {
 

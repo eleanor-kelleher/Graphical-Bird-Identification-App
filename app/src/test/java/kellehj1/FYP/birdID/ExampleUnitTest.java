@@ -1,4 +1,4 @@
-package com.example.myfirstapp;
+package kellehj1.FYP.birdID;
 
 import org.junit.Test;
 

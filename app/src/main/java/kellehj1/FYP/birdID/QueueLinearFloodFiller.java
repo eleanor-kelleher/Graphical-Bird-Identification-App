@@ -1,4 +1,4 @@
-package com.example.myfirstapp;
+package kellehj1.FYP.birdID;
 
 //Original algorithm by J. Dunlap queuelinearfloodfill.aspx
 //Java port by Owen Kaluza

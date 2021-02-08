@@ -1,4 +1,4 @@
-package com.example.myfirstapp;
+package kellehj1.FYP.birdID;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Bitmap;
@@ -12,6 +12,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.view.View.OnTouchListener;
+
+import kellehj1.FYP.birdID.R;
 
 import java.util.LinkedList;
 import java.util.Queue;
