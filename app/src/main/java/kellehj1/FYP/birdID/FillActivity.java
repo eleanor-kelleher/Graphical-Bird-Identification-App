@@ -41,22 +41,22 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         imageView = (ImageView) findViewById(R.id.imageView1);
         imageView.setOnTouchListener(this);
 
-        mask = BitmapFactory.decodeResource(getResources(), R.drawable.test_fill_mask4); // Mask Image
-        maskScaled = Bitmap.createScaledBitmap(mask, screenWidth, screenWidth, true);
-        original = BitmapFactory.decodeResource(getResources(), R.drawable.test_fill_outline4); // Original Image Without Color
-        originalScaled = Bitmap.createScaledBitmap(original, screenWidth, screenWidth, true);
+        mask = BitmapFactory.decodeResource(getResources(), R.drawable.tit_mask); // Mask Image
+        mask = Bitmap.createScaledBitmap(mask, screenWidth, screenWidth, true);
+        original = BitmapFactory.decodeResource(getResources(), R.drawable.tit_outline); // Original Image Without Color
+        original = Bitmap.createScaledBitmap(original, screenWidth, screenWidth, true);
         coloured = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
         coloured = Bitmap.createScaledBitmap(coloured, screenWidth, screenWidth, true);
 
         cv = new Canvas(coloured);
-        cv.drawBitmap(originalScaled, 0,0, null);
-        imageView.setImageBitmap(originalScaled);
+        cv.drawBitmap(original, 0,0, null);
+        imageView.setImageBitmap(original);
     }
 
     int ANTIALIASING_TOLERANCE = 50;
 
     public boolean onTouch(View arg0, MotionEvent arg1) {
-        int selectedPixel = maskScaled.getPixel((int)arg1.getX(),(int)arg1.getY());
+        int selectedPixel = mask.getPixel((int)arg1.getX(),(int)arg1.getY());
         int redValue = Color.red(selectedPixel);
         int greenValue = Color.green(selectedPixel);
         int blueValue = Color.blue(selectedPixel);
