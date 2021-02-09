@@ -1,6 +1,8 @@
 package kellehj1.FYP.birdID;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
@@ -24,7 +26,9 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
      */
     private ImageView imageView;
     private Canvas cv;
-    private Bitmap mask, original, colored;
+    private Bitmap mask, maskScaled, original, originalScaled, coloured;
+
+    int screenWidth  = Resources.getSystem().getDisplayMetrics().widthPixels;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,51 +38,33 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         imageView = (ImageView) findViewById(R.id.imageView1);
         imageView.setOnTouchListener(this);
 
-        mask = BitmapFactory.decodeResource(getResources(), R.drawable.test_fill_mask); // Mask Image
-        original = BitmapFactory.decodeResource(getResources(), R.drawable.test_fill_outline); // Original Image Without Color
-        colored = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
+        mask = BitmapFactory.decodeResource(getResources(), R.drawable.test_fill_mask2); // Mask Image
+        maskScaled = Bitmap.createScaledBitmap(mask, screenWidth, screenWidth, true);
+        original = BitmapFactory.decodeResource(getResources(), R.drawable.test_fill_outline2); // Original Image Without Color
+        originalScaled = Bitmap.createScaledBitmap(original, screenWidth, screenWidth, true);
+        coloured = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
+        coloured = Bitmap.createScaledBitmap(coloured, screenWidth, screenWidth, true);
 
-        cv = new Canvas(colored);
-        cv.drawBitmap(original, 0,0, null);
-        imageView.setImageBitmap(original);
+        cv = new Canvas(coloured);
+        cv.drawBitmap(originalScaled, 0,0, null);
+        imageView.setImageBitmap(originalScaled);
     }
 
-    int ANTIALIASING_TOLERANCE = 70;
+    int ANTIALIASING_TOLERANCE = 50;
 
     public boolean onTouch(View arg0, MotionEvent arg1) {
-        //mask = BitmapFactory.decodeResource(getResources(), R.drawable.mask);
-        int selectedColor = mask.getPixel((int)arg1.getX(),(int)arg1.getY());
-        int sG = (selectedColor & 0x0000FF00) >> 8;
-        int sR = (selectedColor & 0x00FF0000) >> 16;
-        int sB = (selectedColor & 0x000000FF);
-        System.out.println("SG :"+((selectedColor & 0x0000FF00) >> 8));
-        System.out.println("SR :"+((selectedColor & 0x00FF0000) >> 16));
-        System.out.println("SB :"+(selectedColor & 0x000000FF));
+        int selectedPixel = maskScaled.getPixel((int)arg1.getX(),(int)arg1.getY());
+        int redValue = Color.red(selectedPixel);
+        int greenValue = Color.green(selectedPixel);
+        int blueValue = Color.blue(selectedPixel);
 
         //original = BitmapFactory.decodeResource(getResources(), R.drawable.original);
         //colored = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
 
         Point point = new Point((int) arg1.getX(), (int) arg1.getY());
-        colored = FloodFill(colored, point, Color.WHITE, Color.RED);
-        /*
-        for(int x = 0; x < mask.getWidth(); x++){
-            for(int y = 0; y < mask.getHeight(); y++){
+        coloured = FloodFill(coloured, point, Color.WHITE, Color.RED);
 
-                int g = (mask.getPixel(x,y) & 0x0000FF00) >> 8;
-                int r = (mask.getPixel(x,y) & 0x00FF0000) >> 16;
-                int b = (mask.getPixel(x,y) & 0x000000FF);
-
-                //System.out.println("r: "+r+", g: "+g+", b: "+b);
-
-
-                if(Math.abs(sR - r) < ANTIALIASING_TOLERANCE && Math.abs(sG - g) < ANTIALIASING_TOLERANCE && Math.abs(sB - b) < ANTIALIASING_TOLERANCE)
-                    colored.setPixel(x, y, (colored.getPixel(x, y) & 0xFFFF0000));
-            }
-        }
-        /*
-         */
-
-        imageView.setImageBitmap(colored);
+        imageView.setImageBitmap(coloured);
         imageView.invalidate();
         return true;
     }

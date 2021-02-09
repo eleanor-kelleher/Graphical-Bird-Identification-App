@@ -1,6 +1,6 @@
 package kellehj1.FYP.birdID;
 
-//Original algorithm by J. Dunlap queuelinearfloodfill.aspx
+//Original algorithm by J. Dunlap
 //Java port by Owen Kaluza
 //Android port by Darrin Smith (Standard Android)
 
