@@ -2,6 +2,7 @@ package kellehj1.FYP.birdID;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -12,6 +13,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.view.View.OnTouchListener;
 
@@ -27,6 +29,7 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
     private ImageView imageView;
     private Canvas cv;
     private Bitmap mask, maskScaled, original, originalScaled, coloured;
+    private int replacementColour;
 
     int screenWidth  = Resources.getSystem().getDisplayMetrics().widthPixels;
 
@@ -38,9 +41,9 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         imageView = (ImageView) findViewById(R.id.imageView1);
         imageView.setOnTouchListener(this);
 
-        mask = BitmapFactory.decodeResource(getResources(), R.drawable.test_fill_mask2); // Mask Image
+        mask = BitmapFactory.decodeResource(getResources(), R.drawable.test_fill_mask4); // Mask Image
         maskScaled = Bitmap.createScaledBitmap(mask, screenWidth, screenWidth, true);
-        original = BitmapFactory.decodeResource(getResources(), R.drawable.test_fill_outline2); // Original Image Without Color
+        original = BitmapFactory.decodeResource(getResources(), R.drawable.test_fill_outline4); // Original Image Without Color
         originalScaled = Bitmap.createScaledBitmap(original, screenWidth, screenWidth, true);
         coloured = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
         coloured = Bitmap.createScaledBitmap(coloured, screenWidth, screenWidth, true);
@@ -62,10 +65,13 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         //colored = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
 
         Point point = new Point((int) arg1.getX(), (int) arg1.getY());
-        coloured = FloodFill(coloured, point, Color.WHITE, Color.RED);
 
-        imageView.setImageBitmap(coloured);
-        imageView.invalidate();
+        int currentColour = coloured.getPixel((int) arg1.getX(), (int) arg1.getY());
+        if (currentColour != Color.BLACK && currentColour != replacementColour) {
+            coloured = FloodFill(coloured, point, currentColour, replacementColour);
+            imageView.setImageBitmap(coloured);
+            imageView.invalidate();
+        }
         return true;
     }
 
@@ -100,5 +106,14 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
             }
         }
         return bmp;
+    }
+
+//colour functions
+    public void setColourYellow(View view) {
+        replacementColour = Color.YELLOW;
+    }
+    /** Called when the user taps the Send button */
+    public void setColourRed(View view) {
+        replacementColour = Color.RED;
     }
 }

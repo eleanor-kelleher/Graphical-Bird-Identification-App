@@ -3,4 +3,6 @@
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
     <string name="button_fillscreen">Bird Time!</string>
+    <string name="button_colour_red">Red</string>
+    <string name="button_colour_yellow">Yellow</string>
 </resources>
