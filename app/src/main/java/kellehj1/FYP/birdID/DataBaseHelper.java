@@ -45,7 +45,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + tableName);
+        onCreate(db);
     }
 
     public boolean addBirds() {
@@ -58,14 +59,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
                 while (keys.hasNext()) {
                     String key = keys.next();
-                    if(key.equals("NAME") || key.equals("DESCRIPTION")) {
-                        cv.put(key, String.valueOf(bird.get(key)));
-                    } else {
-                        cv.put(key, (Integer) bird.get(key));
-                    }
+                    cv.put(key, String.valueOf(bird.get(key)));
                 }
 
-                long insert = db.insert(tableName, null, cv);
+                long insert = db.insertOrThrow(tableName, null, cv);
                 if (insert == -1) {
                     return false;
                 }

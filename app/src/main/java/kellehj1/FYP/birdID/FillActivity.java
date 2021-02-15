@@ -22,10 +22,9 @@ import kellehj1.FYP.birdID.R;
 import java.util.LinkedList;
 import java.util.Queue;
 
+
 public class FillActivity extends AppCompatActivity implements OnTouchListener {
-    /**
-     * Called when the activity is first created.
-     */
+
     private ImageView imageView;
     private Canvas cv;
     private Bitmap mask, original, coloured;
@@ -55,12 +54,6 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
 
     public boolean onTouch(View arg0, MotionEvent arg1) {
         int selectedPixel = mask.getPixel((int)arg1.getX(),(int)arg1.getY());
-        int redValue = Color.red(selectedPixel);
-        int greenValue = Color.green(selectedPixel);
-        int blueValue = Color.blue(selectedPixel);
-
-        //original = BitmapFactory.decodeResource(getResources(), R.drawable.original);
-        //colored = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
 
         int currentColour = coloured.getPixel((int) arg1.getX(), (int) arg1.getY());
         int maskColour = mask.getPixel((int) arg1.getX(), (int) arg1.getY());
@@ -107,12 +100,36 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         return bmp;
     }
 
-//colour functions
-    public void setColourYellow(View view) {
-        replacementColour = Color.YELLOW;
+    //colour functions
+    public void setColourBlack(View view) {
+        replacementColour = getResources().getColor(R.color.btn_black);
     }
-    /** Called when the user taps the Send button */
+    public void setColourGrey(View view) {
+        replacementColour = getResources().getColor(R.color.btn_grey);
+    }
+    public void setColourWhite(View view) {
+        replacementColour = getResources().getColor(R.color.btn_white);
+    }
+    public void setColourBrown(View view) {
+        replacementColour = getResources().getColor(R.color.btn_brown);
+    }
     public void setColourRed(View view) {
-        replacementColour = Color.RED;
+        replacementColour = getResources().getColor(R.color.btn_red);
     }
+    public void setColourYellow(View view) {
+
+        replacementColour = getResources().getColor(R.color.btn_yellow);
+    }
+    public void setColourBlue(View view) {
+        replacementColour = getResources().getColor(R.color.btn_blue);
+    }
+    public void setColourOrange(View view) {
+
+        replacementColour = getResources().getColor(R.color.btn_orange);
+    }
+    public void setColourGreen(View view) {
+
+        replacementColour = getResources().getColor(R.color.btn_green);
+    }
+
 }
