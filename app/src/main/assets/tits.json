@@ -1,0 +1,41 @@
+[
+    {
+        "NAME": "MASK_TIT",
+        "DESCRIPTION": "CREATE TABLE IF NOT EXISTS TIT_TABLE (NAME TEXT PRIMARY KEY, DESCRIPTION TEXT, BEAK INTEGER, LEG INTEGER, CROWN INTEGER, CHEEK INTEGER, EYESTRIPE INTEGER, BREAST INTEGER, BELLY INTEGER, WING INTEGER, WINGSTRIPE INTEGER)",
+        "BEAK": 0,
+        "LEG": 0,
+        "CROWN": 0,
+        "CHEEK": 0,
+        "EYESTRIPE": 0,
+        "BREAST": 0,
+        "BELLY": 0,
+        "WING": 0,
+        "WINGSTRIPE": 0
+    },
+    {
+        "NAME": "Blue Tit",
+        "DESCRIPTION": "foo",
+        "BEAK": 0,
+        "LEG": 0,
+        "CROWN": 0,
+        "CHEEK": 0,
+        "EYESTRIPE": 0,
+        "BREAST": 0,
+        "BELLY": 0,
+        "WING": 0,
+        "WINGSTRIPE": 0
+    },
+    {
+        "NAME": "Great Tit",
+        "DESCRIPTION": "bar",
+        "BEAK": 0,
+        "LEG": 0,
+        "CROWN": 0,
+        "CHEEK": 0,
+        "EYESTRIPE": 0,
+        "BREAST": 0,
+        "BELLY": 0,
+        "WING": 0,
+        "WINGSTRIPE": 0
+    }
+]

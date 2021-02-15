@@ -28,7 +28,7 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
      */
     private ImageView imageView;
     private Canvas cv;
-    private Bitmap mask, maskScaled, original, originalScaled, coloured;
+    private Bitmap mask, original, coloured;
     private int replacementColour;
 
     int screenWidth  = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -53,8 +53,6 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         imageView.setImageBitmap(original);
     }
 
-    int ANTIALIASING_TOLERANCE = 50;
-
     public boolean onTouch(View arg0, MotionEvent arg1) {
         int selectedPixel = mask.getPixel((int)arg1.getX(),(int)arg1.getY());
         int redValue = Color.red(selectedPixel);
@@ -64,10 +62,11 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         //original = BitmapFactory.decodeResource(getResources(), R.drawable.original);
         //colored = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
 
-        Point point = new Point((int) arg1.getX(), (int) arg1.getY());
-
         int currentColour = coloured.getPixel((int) arg1.getX(), (int) arg1.getY());
-        if (currentColour != Color.BLACK && currentColour != replacementColour) {
+        int maskColour = mask.getPixel((int) arg1.getX(), (int) arg1.getY());
+
+        if (currentColour != Color.BLACK && maskColour != Color.BLACK && currentColour != replacementColour) {
+            Point point = new Point((int) arg1.getX(), (int) arg1.getY());
             coloured = FloodFill(coloured, point, currentColour, replacementColour);
             imageView.setImageBitmap(coloured);
             imageView.invalidate();

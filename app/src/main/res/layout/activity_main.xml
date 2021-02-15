@@ -14,8 +14,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:ems="10"
+        android:hint="@string/edit_message"
         android:inputType="textPersonName"
-        android:text="@string/edit_message"
         app:layout_constraintEnd_toStartOf="@+id/button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,13 +37,24 @@
         app:layout_constraintStart_toEndOf="@+id/editText" />
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="161dp"
-        android:layout_height="57dp"
+        android:id="@+id/button_fillscreen"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
         android:layout_marginTop="164dp"
         android:onClick="birdTime"
         android:text="@string/button_fillscreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_create_db"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:onClick="createDB"
+        android:text="@string/button_create_db"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_fillscreen" />
 </androidx.constraintlayout.widget.ConstraintLayout>
