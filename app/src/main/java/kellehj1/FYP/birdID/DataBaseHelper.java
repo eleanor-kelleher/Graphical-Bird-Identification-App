@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -83,6 +84,30 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         int count = cursor.getCount();
         cursor.close();
         return count;
+    }
+
+    String getColouredSection(int maskSectionColour) {
+        String maskSection = "";
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String maskQuery = "SELECT * FROM " + tableName + " WHERE NAME='MASK'";
+            Cursor cursor = db.rawQuery(maskQuery, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+                for (int i = 0; i < cursor.getColumnCount() && maskSection.equals(""); i++) {
+                    String column = cursor.getColumnName(i);
+                    if (!column.equals("ID") && !column.equals("NAME") && !column.equals("DESCRIPTION") &&
+                            maskSectionColour == Color.parseColor(cursor.getString(i))) {
+                        maskSection = cursor.getColumnName(i);
+                    }
+                }
+                cursor.close();
+                db.close();
+            }
+        } catch (Exception e) {
+            Log.e("", "exception : " + e.toString());
+        }
+        return maskSection;
     }
 
     public String loadJSONFromAsset(String filename) {
