@@ -19,6 +19,7 @@ import android.view.View.OnTouchListener;
 
 import kellehj1.FYP.birdID.R;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -69,7 +70,7 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         }
 
         String section = dbHelper.getColouredSection(maskColour);
-
+        ArrayList<Integer> birdID = dbHelper.getMatches(section, replacementColour);
         return true;
     }
 

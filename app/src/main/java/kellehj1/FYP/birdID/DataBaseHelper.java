@@ -14,6 +14,7 @@ import org.json.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
@@ -108,6 +109,31 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             Log.e("", "exception : " + e.toString());
         }
         return maskSection;
+    }
+
+    ArrayList<Integer> getMatches(String section, int replacementColour) {
+        ArrayList<Integer> matches = new ArrayList<Integer>();
+        String hexColor = String.format("#%06X", (0xFFFFFF & replacementColour));
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String matchQuery = "SELECT * FROM " + tableName + " WHERE " + section + "='" + hexColor + "'";
+            Cursor cursor = db.rawQuery(matchQuery, null);
+            if (cursor != null) {
+                if  (cursor.moveToFirst()) {
+                    do {
+                        int id = cursor.getInt(0);
+                        matches.add(id);
+                    }
+                    while (cursor.moveToNext());
+                }
+                cursor.close();
+                db.close();
+            }
+        }
+        catch (Exception e) {
+        Log.e("", "exception : " + e.toString());
+        }
+        return matches;
     }
 
     public String loadJSONFromAsset(String filename) {
