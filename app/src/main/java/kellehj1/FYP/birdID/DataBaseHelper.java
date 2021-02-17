@@ -2,6 +2,7 @@ package kellehj1.FYP.birdID;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -72,6 +73,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
         return true;
+    }
+
+    // Getting contacts Count
+    public int getBirdsCount() {
+        String countQuery = "SELECT * FROM " + tableName;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
     }
 
     public String loadJSONFromAsset(String filename) {

@@ -13,4 +13,7 @@
     <string name="btn_clr_blue">Blue</string>
     <string name="btn_clr_orange">Orange</string>
     <string name="btn_clr_green">Green</string>
+    <string name="title_activity_bird_list">ScrollingActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="btn_bird_list">Bird List</string>
 </resources>

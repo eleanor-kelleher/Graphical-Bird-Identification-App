@@ -39,10 +39,18 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /** Called when the user taps the Bird Database button */
+    public void viewBirdList(View view) {
+        Intent intent = new Intent(this, BirdListActivity.class);
+        startActivity(intent);
+    }
+
     public void createDB(View view) throws Exception {
         DataBaseHelper dbHelper = new DataBaseHelper(MainActivity.this, "TIT_TABLE", "tits.json");
-
-        if(dbHelper.addBirds()) {
+        if (dbHelper.getBirdsCount() > 0) {
+            Toast.makeText(MainActivity.this, "DB already exists", Toast.LENGTH_LONG).show();
+        }
+        else if(dbHelper.addBirds()) {
             Toast.makeText(MainActivity.this, "DB created", Toast.LENGTH_LONG).show();
         }
         else {

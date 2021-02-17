@@ -26,7 +26,7 @@ import java.util.Queue;
 public class FillActivity extends AppCompatActivity implements OnTouchListener {
 
     private ImageView imageView;
-    private Canvas cv;
+    private Canvas canvas;
     private Bitmap mask, original, coloured;
     private int replacementColour;
 
@@ -47,8 +47,8 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         coloured = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
         coloured = Bitmap.createScaledBitmap(coloured, screenWidth, screenWidth, true);
 
-        cv = new Canvas(coloured);
-        cv.drawBitmap(original, 0,0, null);
+        canvas = new Canvas(coloured);
+        canvas.drawBitmap(original, 0,0, null);
         imageView.setImageBitmap(original);
     }
 

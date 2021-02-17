@@ -9,9 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.birdID">
+        <activity android:name=".BirdListActivity"
+            android:parentActivityName=".MainActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="kellehj1.FYP.birdID.MainActivity" />
+
+        </activity>
         <activity
-            android:name="kellehj1.FYP.birdID.FillActivity"
-            android:parentActivityName="kellehj1.FYP.birdID.MainActivity">
+            android:name=".FillActivity"
+            android:parentActivityName=".MainActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
@@ -19,15 +28,15 @@
                 android:value="kellehj1.FYP.birdID.MainActivity" />
         </activity>
         <activity
-            android:name="kellehj1.FYP.birdID.DisplayMessageActivity"
-            android:parentActivityName="kellehj1.FYP.birdID.MainActivity">
+            android:name=".DisplayMessageActivity"
+            android:parentActivityName=".MainActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="kellehj1.FYP.birdID.MainActivity" />
         </activity>
-        <activity android:name="kellehj1.FYP.birdID.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

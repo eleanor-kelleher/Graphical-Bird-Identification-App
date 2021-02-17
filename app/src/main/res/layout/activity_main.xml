@@ -40,12 +40,12 @@
         android:id="@+id/btn_fillscreen"
         android:layout_width="160dp"
         android:layout_height="60dp"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="64dp"
         android:onClick="birdTime"
         android:text="@string/btn_fillscreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
 
     <Button
         android:id="@+id/btn_create_db"
@@ -57,4 +57,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_fillscreen" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:onClick="viewBirdList"
+        android:text="@string/btn_bird_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_create_db" />
 </androidx.constraintlayout.widget.ConstraintLayout>
