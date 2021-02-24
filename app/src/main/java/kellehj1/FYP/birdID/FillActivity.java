@@ -11,11 +11,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.view.View.OnTouchListener;
+import android.widget.Toast;
 
 import kellehj1.FYP.birdID.R;
 
@@ -31,8 +34,11 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
     private Canvas canvas;
     private Bitmap mask, original, coloured;
     private int replacementColour;
+    private QueueLinearFloodFiller floodFiller;
+    private ArrayList<Integer> birdIDMatches = new ArrayList<Integer>();
 
-    int screenWidth  = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private int screenWidth  = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private int  birdCount;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +49,8 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         imageView.setOnTouchListener(this);
 
         dbHelper = new DataBaseHelper(FillActivity.this, "TIT_TABLE", "tits.json");
+        birdCount = dbHelper.getBirdsCount();
+        getResources().getString(R.string.birdCount, birdCount);
 
         mask = BitmapFactory.decodeResource(getResources(), R.drawable.tit_mask); // Mask Image
         mask = Bitmap.createScaledBitmap(mask, screenWidth, screenWidth, true);
@@ -56,55 +64,38 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         imageView.setImageBitmap(original);
     }
 
-    public boolean onTouch(View arg0, MotionEvent arg1) {
-        int selectedPixel = mask.getPixel((int)arg1.getX(),(int)arg1.getY());
-
-        int currentColour = coloured.getPixel((int) arg1.getX(), (int) arg1.getY());
-        int maskColour = mask.getPixel((int) arg1.getX(), (int) arg1.getY());
-
-        if (currentColour != Color.BLACK && maskColour != Color.BLACK && currentColour != replacementColour) {
-            Point point = new Point((int) arg1.getX(), (int) arg1.getY());
-            coloured = FloodFill(coloured, point, currentColour, replacementColour);
-            imageView.setImageBitmap(coloured);
-            imageView.invalidate();
-        }
-
-        String section = dbHelper.getColouredSection(maskColour);
-        ArrayList<Integer> birdID = dbHelper.getMatches(section, replacementColour);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
         return true;
     }
 
-    private Bitmap FloodFill(Bitmap bmp, Point pt, int targetColor, int replacementColour) {
-        Queue<Point> q = new LinkedList<Point>();
-        q.add(pt);
-        while (q.size() > 0) {
-            Point n = q.poll();
-            if (bmp.getPixel(n.x, n.y) != targetColor)
-                continue;
+    public boolean onTouch(View arg0, MotionEvent arg1) {
+        int x = (int) arg1.getX();
+        int y = (int) arg1.getY();
+        int selectedPixel = mask.getPixel(x, y);
 
-            Point w = n, e = new Point(n.x + 1, n.y);
-            while ((w.x > 0) && (bmp.getPixel(w.x, w.y) == targetColor)) {
-                bmp.setPixel(w.x, w.y, replacementColour);
-                if ((w.y > 0) && (bmp.getPixel(w.x, w.y - 1) == targetColor))
-                    q.add(new Point(w.x, w.y - 1));
-                if ((w.y < bmp.getHeight() - 1)
-                        && (bmp.getPixel(w.x, w.y + 1) == targetColor))
-                    q.add(new Point(w.x, w.y + 1));
-                w.x--;
+        int targetColour = coloured.getPixel(x, y);
+        int maskColour = mask.getPixel(x, y);
+
+        if (targetColour != Color.BLACK && maskColour != Color.BLACK && targetColour != replacementColour) {
+
+            String section = dbHelper.getColouredSection(maskColour);
+            ArrayList<Integer> currentMatches = dbHelper.getMatches(section, replacementColour, birdIDMatches);
+            if (currentMatches.isEmpty()) {
+                Toast.makeText(FillActivity.this, "There is no such bird.", Toast.LENGTH_SHORT).show();
             }
-            while ((e.x < bmp.getWidth() - 1)
-                    && (bmp.getPixel(e.x, e.y) == targetColor)) {
-                bmp.setPixel(e.x, e.y, replacementColour);
+            else {
+                birdIDMatches = currentMatches;
 
-                if ((e.y > 0) && (bmp.getPixel(e.x, e.y - 1) == targetColor))
-                    q.add(new Point(e.x, e.y - 1));
-                if ((e.y < bmp.getHeight() - 1)
-                        && (bmp.getPixel(e.x, e.y + 1) == targetColor))
-                    q.add(new Point(e.x, e.y + 1));
-                e.x++;
+                floodFiller = new QueueLinearFloodFiller(coloured, targetColour, replacementColour);
+                floodFiller.floodFill(x, y);
+                imageView.setImageBitmap(floodFiller.getImage());
+                imageView.invalidate();
             }
         }
-        return bmp;
+
+        return true;
     }
 
     //colour functions

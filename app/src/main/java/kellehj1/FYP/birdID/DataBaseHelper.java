@@ -3,6 +3,7 @@ package kellehj1.FYP.birdID;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
@@ -81,9 +82,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public int getBirdsCount() {
         String countQuery = "SELECT * FROM " + tableName;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        int count = cursor.getCount();
-        cursor.close();
+        int count = (int) DatabaseUtils.queryNumEntries(db, tableName);
+        db.close();
         return count;
     }
 
@@ -111,7 +111,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return maskSection;
     }
 
-    ArrayList<Integer> getMatches(String section, int replacementColour) {
+    ArrayList<Integer> getMatches(String section, int replacementColour, ArrayList<Integer> priorMatches) {
         ArrayList<Integer> matches = new ArrayList<Integer>();
         String hexColor = String.format("#%06X", (0xFFFFFF & replacementColour));
         try {
@@ -133,7 +133,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         catch (Exception e) {
         Log.e("", "exception : " + e.toString());
         }
+        if (!priorMatches.isEmpty())
+            matches = intersection(matches, priorMatches);
         return matches;
+    }
+
+    public <T> ArrayList<T> intersection(ArrayList<T> list1, ArrayList<T> list2) {
+        ArrayList<T> list = new ArrayList<T>();
+        for (T t : list1) {
+            if(list2.contains(t)) {
+                list.add(t);
+            }
+        }
+
+        return list;
     }
 
     public String loadJSONFromAsset(String filename) {

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/birdCount"
+        android:title="@string/birdCount"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/tickNext"
+        android:icon="@drawable/tick"
+        android:title="@string/tickNext"
+        android:visible="true"
+        app:showAsAction="always" />
+</menu>

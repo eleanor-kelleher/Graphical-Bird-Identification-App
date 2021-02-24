@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
         button_fillscreen = findViewById(R.id.btn_fillscreen);
         button_create_db = findViewById(R.id.btn_create_db);
-        editText = findViewById(R.id.editText);
     }
 
     /** Called when the user taps the Send button */
