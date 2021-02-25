@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- default colour scheme -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -8,13 +9,28 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="btn_black">#FF3B3B3B</color>
-    <color name="btn_grey">#FF7F7F7F</color>
-    <color name="btn_white">#FFFFFFFF</color>
-    <color name="btn_brown">#FF8B573A</color>
-    <color name="btn_red">#FFF2575F</color>
-    <color name="btn_yellow">#FFFFF74F</color>
-    <color name="btn_blue">#FF6178D3</color>
-    <color name="btn_orange">#FFFF7F27</color>
-    <color name="btn_green">#FFA7E463</color>
+    <!-- main colour scheme -->
+    <color name="viridian_green">#FF349698</color>
+    <color name="ming">#FF256873</color>
+    <color name="medium_aquamarine">#FF57CC99</color>
+    <color name="light_green">#FF80ED99</color>
+    <color name="tea_green">#FFC7F9CC</color>
+
+    <!-- old alternate colour scheme -->
+    <color name="charcoal">#FF122D40</color>
+    <color name="carolina_blue">#FF2A94D6</color>
+    <color name="star_command_blue">#FF2176AB</color>
+    <color name="timberwolf">#FFDADDD8</color>
+    <color name="cultured">#FFF0F1F2</color>
+
+    <!-- bird colours -->
+    <color name="bird_black">#FF3B3B3B</color>
+    <color name="bird_grey">#FF7F7F7F</color>
+    <color name="bird_white">#FFFFFFFF</color>
+    <color name="bird_brown">#FF8B573A</color>
+    <color name="bird_red">#FFF2575F</color>
+    <color name="bird_yellow">#FFFFF74F</color>
+    <color name="bird_blue">#FF6178D3</color>
+    <color name="bird_orange">#FFFF7F27</color>
+    <color name="bird_green">#FFA7E463</color>
 </resources>

@@ -101,34 +101,34 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
 
     //colour functions
     public void setColourBlack(View view) {
-        replacementColour = getResources().getColor(R.color.btn_black);
+        replacementColour = getResources().getColor(R.color.bird_black);
     }
     public void setColourGrey(View view) {
-        replacementColour = getResources().getColor(R.color.btn_grey);
+        replacementColour = getResources().getColor(R.color.bird_grey);
     }
     public void setColourWhite(View view) {
-        replacementColour = getResources().getColor(R.color.btn_white);
+        replacementColour = getResources().getColor(R.color.bird_white);
     }
     public void setColourBrown(View view) {
-        replacementColour = getResources().getColor(R.color.btn_brown);
+        replacementColour = getResources().getColor(R.color.bird_brown);
     }
     public void setColourRed(View view) {
-        replacementColour = getResources().getColor(R.color.btn_red);
+        replacementColour = getResources().getColor(R.color.bird_red);
     }
     public void setColourYellow(View view) {
 
-        replacementColour = getResources().getColor(R.color.btn_yellow);
+        replacementColour = getResources().getColor(R.color.bird_yellow);
     }
     public void setColourBlue(View view) {
-        replacementColour = getResources().getColor(R.color.btn_blue);
+        replacementColour = getResources().getColor(R.color.bird_blue);
     }
     public void setColourOrange(View view) {
 
-        replacementColour = getResources().getColor(R.color.btn_orange);
+        replacementColour = getResources().getColor(R.color.bird_orange);
     }
     public void setColourGreen(View view) {
 
-        replacementColour = getResources().getColor(R.color.btn_green);
+        replacementColour = getResources().getColor(R.color.bird_green);
     }
 
 }
