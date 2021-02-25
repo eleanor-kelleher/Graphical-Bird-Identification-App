@@ -13,6 +13,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -49,8 +50,9 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         imageView.setOnTouchListener(this);
 
         dbHelper = new DataBaseHelper(FillActivity.this, "TIT_TABLE", "tits.json");
-        birdCount = dbHelper.getBirdsCount();
-        getResources().getString(R.string.birdCount, birdCount);
+        birdIDMatches = dbHelper.getAllIds();
+        invalidateOptionsMenu();
+        //getResources().getString(R.string.birdCount, birdCount);
 
         mask = BitmapFactory.decodeResource(getResources(), R.drawable.tit_mask); // Mask Image
         mask = Bitmap.createScaledBitmap(mask, screenWidth, screenWidth, true);
@@ -87,15 +89,21 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
             }
             else {
                 birdIDMatches = currentMatches;
-
                 floodFiller = new QueueLinearFloodFiller(coloured, targetColour, replacementColour);
                 floodFiller.floodFill(x, y);
                 imageView.setImageBitmap(floodFiller.getImage());
                 imageView.invalidate();
+                invalidateOptionsMenu();
             }
         }
-
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.birdCount);
+        item.setTitle(String.valueOf(birdIDMatches.size()));
+        return super.onPrepareOptionsMenu(menu);
     }
 
     //colour functions

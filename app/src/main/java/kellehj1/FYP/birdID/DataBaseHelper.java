@@ -87,7 +87,31 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    String getColouredSection(int maskSectionColour) {
+    public ArrayList<Integer> getAllIds() {
+        ArrayList<Integer> allIds = new ArrayList<Integer>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String matchQuery = "SELECT * FROM " + tableName + " WHERE NAME!='MASK'";;
+            Cursor cursor = db.rawQuery(matchQuery, null);
+            if (cursor != null) {
+                if  (cursor.moveToFirst()) {
+                    do {
+                        int id = cursor.getInt(0);
+                        allIds.add(id);
+                    }
+                    while (cursor.moveToNext());
+                }
+                cursor.close();
+                db.close();
+            }
+        }
+        catch (Exception e) {
+            Log.e("", "exception : " + e.toString());
+        }
+        return allIds;
+    }
+
+    public String getColouredSection(int maskSectionColour) {
         String maskSection = "";
         try {
             SQLiteDatabase db = this.getReadableDatabase();
@@ -111,7 +135,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return maskSection;
     }
 
-    ArrayList<Integer> getMatches(String section, int replacementColour, ArrayList<Integer> priorMatches) {
+    public ArrayList<Integer> getMatches(String section, int replacementColour, ArrayList<Integer> priorMatches) {
         ArrayList<Integer> matches = new ArrayList<Integer>();
         String hexColor = String.format("#%06X", (0xFFFFFF & replacementColour));
         try {
