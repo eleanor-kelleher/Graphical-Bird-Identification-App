@@ -2,30 +2,23 @@ package kellehj1.FYP.birdID;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.view.View.OnTouchListener;
 import android.widget.Toast;
 
-import kellehj1.FYP.birdID.R;
-
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 
 public class FillActivity extends AppCompatActivity implements OnTouchListener {
@@ -49,14 +42,14 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         imageView = (ImageView) findViewById(R.id.imageView1);
         imageView.setOnTouchListener(this);
 
-        dbHelper = new DataBaseHelper(FillActivity.this, "TIT_TABLE", "tits.json");
+        dbHelper = new DataBaseHelper(FillActivity.this, "POINTED_BEAK_TABLE", "pointedbeak.json");
         birdIDMatches = dbHelper.getAllIds();
         invalidateOptionsMenu();
         //getResources().getString(R.string.birdCount, birdCount);
 
-        mask = BitmapFactory.decodeResource(getResources(), R.drawable.tit_mask); // Mask Image
+        mask = BitmapFactory.decodeResource(getResources(), R.drawable.pointed_beak_mask); // Mask Image
         mask = Bitmap.createScaledBitmap(mask, screenWidth, screenWidth, true);
-        original = BitmapFactory.decodeResource(getResources(), R.drawable.tit_outline); // Original Image Without Color
+        original = BitmapFactory.decodeResource(getResources(), R.drawable.pointed_beak_outline); // Original Image Without Color
         original = Bitmap.createScaledBitmap(original, screenWidth, screenWidth, true);
         coloured = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
         coloured = Bitmap.createScaledBitmap(coloured, screenWidth, screenWidth, true);

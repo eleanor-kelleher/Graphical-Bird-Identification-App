@@ -121,8 +121,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getColumnCount() && maskSection.equals(""); i++) {
                     String column = cursor.getColumnName(i);
-                    if (!column.equals("ID") && !column.equals("NAME") && !column.equals("DESCRIPTION") &&
-                            maskSectionColour == Color.parseColor(cursor.getString(i))) {
+                    if (!column.equals("ID") && !column.equals("NAME") && !column.equals("DESCRIPTION")
+                            && !column.equals("LATINNAME") && !column.equals("IRISHNAME")
+                            && maskSectionColour == Color.parseColor(cursor.getString(i))) {
                         maskSection = cursor.getColumnName(i);
                     }
                 }

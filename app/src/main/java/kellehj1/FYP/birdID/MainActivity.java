@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createDB(View view) throws Exception {
-        DataBaseHelper dbHelper = new DataBaseHelper(MainActivity.this, "TIT_TABLE", "tits.json");
+        DataBaseHelper dbHelper = new DataBaseHelper(MainActivity.this,
+                "POINTED_BEAK_TABLE", "pointedbeak.json");
         if (dbHelper.getBirdsCount() > 0) {
             Toast.makeText(MainActivity.this, "DB already exists", Toast.LENGTH_LONG).show();
         }
