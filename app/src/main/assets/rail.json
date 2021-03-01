@@ -1,0 +1,45 @@
+[
+  {
+    "NAME": "MASK",
+    "LATINNAME": "",
+    "IRISHNAME": "",
+    "DESCRIPTION": "CREATE TABLE IF NOT EXISTS RAIL_TABLE (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, LATINNAME TEXT, IRISHNAME TEXT, DESCRIPTION TEXT, BEAK TEXT, BEAKTIP TEXT, BELLY TEXT, HEAD TEXT, LEG TEXT, RUMP TEXT, TAIL TEXT, WING TEXT)",
+    "BEAK": "#00A2E8",
+    "BEAKTIP": "#3F48CC",
+    "BELLY": "#7092BE",
+    "HEAD": "#99D9EA",
+    "LEG": "#C8BFE7",
+    "RUMP": "#B5E61D",
+    "TAIL": "#22B14C",
+    "WING": "#A349A4"
+    },
+  {
+    "NAME": "Coot",
+    "LATINNAME": "Fulica atra",
+    "IRISHNAME": "Cearc cheannann",
+    "DESCRIPTION": "A dark plump bird, similar to Moorhen in size and shape; has a short tail and small head. Useful to remember the old saying - 'as bald as a Coot' to remember the adult birds white forehead and bill, which contrast with its grey body and black head. Has sturdy legs with long lobbed toes, the lobes are used for swimming and are similar to the lobes on grebe toes. Dives from the surface with a small leap. The juvenile is brownish grey and can be told apart from juvenile moorhens by the extensive white on the neck and breast and the absence of any white on the under tail.",
+    "BEAK": "#FFFFFF",
+    "BEAKTIP": "#FFFFFF",
+    "BELLY": "#3B3B3B",
+    "HEAD": "#3B3B3B",
+    "LEG": "#FFFFFF",
+    "RUMP": "#3B3B3B",
+    "TAIL": "#3B3B3B",
+    "WING": "#3B3B3B"
+  },
+  {
+    "NAME": "Moorhen",
+    "LATINNAME": "Gallinula chloropus",
+    "IRISHNAME": "Cearc uisce",
+    "DESCRIPTION": "Usually quite secretive, but can also be seen out in the open on water sides and even out in open fields. A dark pigeon sized bird with long sturdy legs. The adult has a red bill and fore crown, the bill is tipped yellow. Has a white line along the flanks and white sides to its under tail. The under tail is east to see as it carries its tail high. The upperparts are brownish and the underparts are blue-grey. Juveniles lack any red in the bill and crown and are have greyish-brown plumage Moorhens are usually seen on the ground or in the water. If the bird is walking about look out for the long yellow/green legs with the very large toes; the legs project out from the tail in flight.",
+    "BEAK": "#F2575F",
+    "BEAKTIP": "#FFF74F",
+    "BELLY": "#3B3B3B",
+    "HEAD": "#3B3B3B",
+    "LEG": "#FFF74F",
+    "RUMP": "#3B3B3B",
+    "TAIL": "#FFFFFF",
+    "WING": "#8B573A"
+  }
+]
+  
