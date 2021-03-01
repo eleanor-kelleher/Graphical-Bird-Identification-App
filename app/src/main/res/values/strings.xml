@@ -6,6 +6,12 @@
     <string name="btn_bird_list">View Database</string>
     <string name="action_settings">Settings</string>
 
+    <string name="bird_list_title">Bird Database</string>
+    <string name="home_title">Bird ID Home</string>
+    <string name="fill_tool_title">Fill the Template</string>
+    <string name="beak_choice_title">Beak Type</string>
+    <string name="body_choice_title">Body Type</string>
+
     <string name="btn_clr_black">Black</string>
     <string name="btn_clr_grey">Grey</string>
     <string name="btn_clr_white">White</string>

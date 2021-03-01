@@ -23,9 +23,9 @@ public class MainMenuActivity extends AppCompatActivity {
         button_fillscreen = findViewById(R.id.btn_fillscreen);
     }
 
-    /** Called when the user taps the Bird Time button */
-    public void NewBirdID(View view) {
-        Intent intent = new Intent(this, FillActivity.class);
+    /** Called when the user taps the New Bird ID button */
+    public void newBirdID(View view) {
+        Intent intent = new Intent(this, BodyChoiceActivity.class);
         startActivity(intent);
     }
 

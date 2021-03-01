@@ -9,35 +9,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.birdID">
-        <activity
-            android:name=".MainMenuActivity">
 
-        </activity>
-        <activity android:name=".BirdEntryActivity" />
-        <activity
-            android:name=".BirdListActivity"
-            android:parentActivityName=".MainMenuActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="kellehj1.FYP.birdID.MainMenuActivity" />
-        </activity>
-        <activity
-            android:name=".FillActivity"
-            android:parentActivityName=".MainMenuActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="kellehj1.FYP.birdID.MainMenuActivity" />
-        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".MainMenuActivity"
+            android:label="@string/home_title" />
+
+        <activity
+            android:name=".FillActivity"
+            android:label="@string/fill_tool_title">
+        </activity>
+
+        <activity android:name=".BodyChoiceActivity"
+            android:label="@string/body_choice_title">
+        </activity>
+
+        <activity android:name=".BeakChoiceActivity"
+            android:label="@string/beak_choice_title">
+        </activity>
+
+        <activity android:name=".BirdEntryActivity" />
+        <activity
+            android:name=".BirdListActivity"
+            android:label="@string/bird_list_title">
         </activity>
     </application>
 

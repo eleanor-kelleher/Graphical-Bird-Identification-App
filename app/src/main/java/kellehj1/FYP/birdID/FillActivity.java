@@ -2,6 +2,7 @@ package kellehj1.FYP.birdID;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -31,8 +32,7 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
     private QueueLinearFloodFiller floodFiller;
     private ArrayList<Integer> birdIDMatches = new ArrayList<Integer>();
 
-    private int screenWidth  = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private int  birdCount;
+    private final int screenWidth  = Resources.getSystem().getDisplayMetrics().widthPixels;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,11 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         //findViewById(R.id.imageView1).setOnTouchListener(this);
         imageView = (ImageView) findViewById(R.id.imageView1);
         imageView.setOnTouchListener(this);
+
+        // Get the Intent that started this activity and extract the string
+        Intent intent = getIntent();
+        String message = intent.getStringExtra("kellehj1.FYP.birdID.BIRDTYPE");
+        Toast.makeText(FillActivity.this, "Type: " + message, Toast.LENGTH_LONG).show();
 
         dbHelper = new DataBaseHelper(FillActivity.this, "POINTED_BEAK_TABLE", "pointedbeak.json");
         birdIDMatches = dbHelper.getAllIds();
@@ -57,6 +62,13 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         canvas = new Canvas(coloured);
         canvas.drawBitmap(original, 0,0, null);
         imageView.setImageBitmap(original);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.birdCount);
+        item.setTitle(String.valueOf(birdIDMatches.size()));
+        return super.onPrepareOptionsMenu(menu);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,13 +102,6 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
             }
         }
         return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.birdCount);
-        item.setTitle(String.valueOf(birdIDMatches.size()));
-        return super.onPrepareOptionsMenu(menu);
     }
 
     //colour functions
