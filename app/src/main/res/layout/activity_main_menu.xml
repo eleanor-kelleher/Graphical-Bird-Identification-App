@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="kellehj1.FYP.birdID.MainActivity">
+
+<Button
+    android:id="@+id/btn_fillscreen"
+    android:layout_width="220dp"
+    android:layout_height="120dp"
+    android:layout_marginTop="64dp"
+    android:onClick="NewBirdID"
+    android:text="@string/btn_fillscreen"
+    android:textAllCaps="false"
+    android:textSize="24sp"
+    app:icon="@android:drawable/ic_input_add"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<Button
+    android:id="@+id/button"
+    android:layout_width="220dp"
+    android:layout_height="70dp"
+    android:layout_marginTop="8dp"
+    android:onClick="viewBirdList"
+    android:text="@string/btn_bird_list"
+    android:textAllCaps="false"
+    android:textColor="@color/ming"
+    app:backgroundTint="@color/timberwolf"
+    app:icon="@android:drawable/ic_menu_sort_by_size"
+    app:iconTint="@color/ming"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/btn_fillscreen" />
+</androidx.constraintlayout.widget.ConstraintLayout>

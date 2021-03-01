@@ -9,32 +9,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.birdID">
-        <activity android:name=".BirdListActivity"
-            android:parentActivityName=".MainActivity">
+        <activity
+            android:name=".MainMenuActivity">
+
+        </activity>
+        <activity android:name=".BirdEntryActivity" />
+        <activity
+            android:name=".BirdListActivity"
+            android:parentActivityName=".MainMenuActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="kellehj1.FYP.birdID.MainActivity" />
-
+                android:value="kellehj1.FYP.birdID.MainMenuActivity" />
         </activity>
         <activity
             android:name=".FillActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainMenuActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="kellehj1.FYP.birdID.MainActivity" />
-        </activity>
-        <activity
-            android:name=".DisplayMessageActivity"
-            android:parentActivityName=".MainActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="kellehj1.FYP.birdID.MainActivity" />
+                android:value="kellehj1.FYP.birdID.MainMenuActivity" />
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
