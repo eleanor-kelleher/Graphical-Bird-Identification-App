@@ -35,36 +35,6 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
     private final int screenWidth  = Resources.getSystem().getDisplayMetrics().widthPixels;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fill);
-        //findViewById(R.id.imageView1).setOnTouchListener(this);
-        imageView = (ImageView) findViewById(R.id.imageView1);
-        imageView.setOnTouchListener(this);
-
-        // Get the Intent that started this activity and extract the string
-        Intent intent = getIntent();
-        String message = intent.getStringExtra("kellehj1.FYP.birdID.BIRDTYPE");
-        Toast.makeText(FillActivity.this, "Type: " + message, Toast.LENGTH_LONG).show();
-
-        dbHelper = new DataBaseHelper(FillActivity.this, "POINTED_BEAK_TABLE", "pointedbeak.json");
-        birdIDMatches = dbHelper.getAllIds();
-        invalidateOptionsMenu();
-        //getResources().getString(R.string.birdCount, birdCount);
-
-        mask = BitmapFactory.decodeResource(getResources(), R.drawable.pointed_beak_mask); // Mask Image
-        mask = Bitmap.createScaledBitmap(mask, screenWidth, screenWidth, true);
-        original = BitmapFactory.decodeResource(getResources(), R.drawable.pointed_beak_outline); // Original Image Without Color
-        original = Bitmap.createScaledBitmap(original, screenWidth, screenWidth, true);
-        coloured = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
-        coloured = Bitmap.createScaledBitmap(coloured, screenWidth, screenWidth, true);
-
-        canvas = new Canvas(coloured);
-        canvas.drawBitmap(original, 0,0, null);
-        imageView.setImageBitmap(original);
-    }
-
-    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.birdCount);
         item.setTitle(String.valueOf(birdIDMatches.size()));
@@ -75,6 +45,46 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
+    }
+
+    // Links the back button to the previous activity
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+        startActivity(intent);
+        //startActivityForResult(intent, 0);
+        return true;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_fill);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        imageView = (ImageView) findViewById(R.id.fill_image);
+        imageView.setOnTouchListener(this);
+
+        // Get the Intent that started this activity and extract the string
+        Intent intent = getIntent();
+        String birdType = intent.getStringExtra("kellehj1.FYP.birdID.BIRDTYPE");
+
+        dbHelper = new DataBaseHelper(FillActivity.this,
+                birdType.toUpperCase() + "_TABLE",  birdType + ".json");
+        birdIDMatches = dbHelper.getAllIds();
+        int maskId = getResources().getIdentifier(birdType + "_mask", "drawable", getPackageName());
+        int outlineId = getResources().getIdentifier(birdType + "_outline", "drawable", getPackageName());
+
+        mask = BitmapFactory.decodeResource(getResources(), maskId); // Mask Image
+        mask = Bitmap.createScaledBitmap(mask, screenWidth, screenWidth, true);
+        original = BitmapFactory.decodeResource(getResources(), outlineId); // Original Image Without Color
+        original = Bitmap.createScaledBitmap(original, screenWidth, screenWidth, true);
+        coloured = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
+        coloured = Bitmap.createScaledBitmap(coloured, screenWidth, screenWidth, true);
+
+        canvas = new Canvas(coloured);
+        canvas.drawBitmap(original, 0,0, null);
+        imageView.setImageBitmap(original);
+        invalidateOptionsMenu();
     }
 
     public boolean onTouch(View arg0, MotionEvent arg1) {
