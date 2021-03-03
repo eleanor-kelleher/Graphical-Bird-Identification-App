@@ -13,8 +13,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DataBaseHelper dbPointedBeak = createTables("POINTED_BEAK_TABLE", "pointedbeak.json");
-        DataBaseHelper dbWideBeak = createTables("WIDE_BEAK_TABLE", "widebeak.json");
+        DataBaseHelper dbPointedBeak = createTables("POINTED_BEAK_TABLE", "pointed_beak.json");
+        DataBaseHelper dbWideBeak = createTables("WIDE_BEAK_TABLE", "wide_beak.json");
         DataBaseHelper dbRail = createTables("RAIL_TABLE", "rail.json");
 
         goToMenu();

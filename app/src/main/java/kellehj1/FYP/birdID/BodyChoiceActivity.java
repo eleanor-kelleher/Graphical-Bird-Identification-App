@@ -33,7 +33,7 @@ public class BodyChoiceActivity extends AppCompatActivity {
 
     public void selectRailBody(View view) {
         Intent intent = new Intent(this, FillActivity.class);
-        String birdType = "RAIL";
+        String birdType = "rail";
         intent.putExtra(BIRD_TYPE, birdType);
         startActivity(intent);
     }

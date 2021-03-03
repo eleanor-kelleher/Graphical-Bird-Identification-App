@@ -23,4 +23,5 @@
     <string name="btn_clr_green">Green</string>
     <string name="title_activity_bird_list">ScrollingActivity</string>
     <string name="tick_next" />
+    <string name="fill_image_description">Template image to be filled.</string>
 </resources>
