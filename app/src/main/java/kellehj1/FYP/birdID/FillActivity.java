@@ -1,5 +1,6 @@
 package kellehj1.FYP.birdID;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -36,8 +37,8 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.birdCount);
-        item.setTitle(String.valueOf(birdIDMatches.size()));
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(String.valueOf(birdIDMatches.size()) + " matches found");
         return super.onPrepareOptionsMenu(menu);
     }
 
