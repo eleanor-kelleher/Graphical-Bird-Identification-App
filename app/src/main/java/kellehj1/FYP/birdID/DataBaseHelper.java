@@ -71,9 +71,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     return false;
                 }
             }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Log.e("", "exception : " + e.toString());
+        }
+        finally {
+            db.close();
         }
         return true;
     }
@@ -82,15 +84,23 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public int getBirdsCount() {
         String countQuery = "SELECT * FROM " + tableName;
         SQLiteDatabase db = this.getReadableDatabase();
-        int count = (int) DatabaseUtils.queryNumEntries(db, tableName);
-        db.close();
+        int count = 0;
+        try {
+            count = (int) DatabaseUtils.queryNumEntries(db, tableName);
+        }
+        catch (Exception e) {
+                Log.e("", "exception : " + e.toString());
+            }
+        finally {
+                db.close();
+            }
         return count;
     }
 
     public ArrayList<Integer> getAllIds() {
+        SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Integer> allIds = new ArrayList<Integer>();
         try {
-            SQLiteDatabase db = this.getReadableDatabase();
             String matchQuery = "SELECT * FROM " + tableName + " WHERE NAME!='MASK'";;
             Cursor cursor = db.rawQuery(matchQuery, null);
             if (cursor != null) {
@@ -102,19 +112,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     while (cursor.moveToNext());
                 }
                 cursor.close();
-                db.close();
             }
         }
         catch (Exception e) {
             Log.e("", "exception : " + e.toString());
         }
+        finally {
+            db.close();
+        }
         return allIds;
     }
 
     public String getColouredSection(int maskSectionColour) {
+        SQLiteDatabase db = this.getReadableDatabase();
         String maskSection = "";
         try {
-            SQLiteDatabase db = this.getReadableDatabase();
             String maskQuery = "SELECT * FROM " + tableName + " WHERE NAME='MASK'";
             Cursor cursor = db.rawQuery(maskQuery, null);
             if (cursor != null) {
@@ -130,17 +142,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 cursor.close();
                 db.close();
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             Log.e("", "exception : " + e.toString());
+        }
+        finally {
+            db.close();
         }
         return maskSection;
     }
 
     public ArrayList<Integer> getMatches(String section, int replacementColour, ArrayList<Integer> priorMatches) {
+        SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Integer> matches = new ArrayList<Integer>();
         String hexColor = String.format("#%06X", (0xFFFFFF & replacementColour));
         try {
-            SQLiteDatabase db = this.getReadableDatabase();
             String matchQuery = "SELECT * FROM " + tableName + " WHERE " + section + "='" + hexColor + "'";
             Cursor cursor = db.rawQuery(matchQuery, null);
             if (cursor != null) {
@@ -152,12 +168,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     while (cursor.moveToNext());
                 }
                 cursor.close();
-                db.close();
             }
         }
         catch (Exception e) {
-        Log.e("", "exception : " + e.toString());
+            Log.e("", "exception : " + e.toString());
         }
+        finally {
+            db.close();
+        }
+
         if (!priorMatches.isEmpty())
             matches = intersection(matches, priorMatches);
         return matches;
@@ -183,7 +202,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             is.read(buffer);
             is.close();
             json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
+        }
+        catch (IOException ex) {
             ex.printStackTrace();
             return null;
         }
