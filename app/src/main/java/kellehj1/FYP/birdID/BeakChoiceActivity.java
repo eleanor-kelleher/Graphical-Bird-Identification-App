@@ -29,14 +29,14 @@ public class BeakChoiceActivity extends AppCompatActivity {
     public void selectPointedBeak(View view) {
         Intent intent = new Intent(this, FillActivity.class);
         String birdType = "pointed_beak";
-        intent.putExtra(BIRD_TYPE, birdType);
+        intent.putExtra("BIRDTYPE", birdType);
         startActivity(intent);
     }
 
     public void selectWideBeak(View view) {
         Intent intent = new Intent(this, FillActivity.class);
         String birdType = "wide_beak";
-        intent.putExtra(BIRD_TYPE, birdType);
+        intent.putExtra("BIRDTYPE", birdType);
         startActivity(intent);
     }
 }

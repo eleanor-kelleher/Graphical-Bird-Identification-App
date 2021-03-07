@@ -15,6 +15,7 @@ import org.json.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -121,6 +122,31 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             db.close();
         }
         return allIds;
+    }
+
+    public ContentValues getBirdDataFromID(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues data = new ContentValues();
+        try {
+            String dataQuery = "SELECT NAME, LATINNAME, IRISHNAME, DESCRIPTION FROM "
+                    + tableName + " WHERE ID = " + id;
+            Cursor cursor = db.rawQuery(dataQuery, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+                for (int i = 0; i < cursor.getColumnCount() ; i++) {
+                    String column = cursor.getColumnName(i);
+                    data.put(cursor.getColumnName(i), cursor.getString(i));
+                }
+            }
+            cursor.close();
+        }
+        catch (Exception e) {
+            Log.e("", "exception : " + e.toString());
+        }
+        finally {
+            db.close();
+        }
+        return data;
     }
 
     public String getColouredSection(int maskSectionColour) {
