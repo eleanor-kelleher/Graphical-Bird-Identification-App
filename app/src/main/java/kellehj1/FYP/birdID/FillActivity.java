@@ -28,7 +28,8 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
     private DataBaseHelper dbHelper;
     private ImageView imageView;
     private Canvas canvas;
-    private Bitmap mask, original, coloured;
+    private Bitmap mask;
+    private Bitmap coloured;
     private int replacementColour;
     private QueueLinearFloodFiller floodFiller;
     private ArrayList<Integer> birdIDMatches = new ArrayList<Integer>();
@@ -72,19 +73,19 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
 
         dbHelper = new DataBaseHelper(FillActivity.this, birdType);
         birdIDMatches = dbHelper.getAllIds();
-        int maskId = getResources().getIdentifier(birdType + "_mask", "drawable", getPackageName());
-        int outlineId = getResources().getIdentifier(birdType + "_outline", "drawable", getPackageName());
+        int maskId = getResources().getIdentifier("mask_" + birdType, "drawable", getPackageName());
+        int templateId = getResources().getIdentifier("template_" + birdType, "drawable", getPackageName());
 
         mask = BitmapFactory.decodeResource(getResources(), maskId); // Mask Image
         mask = Bitmap.createScaledBitmap(mask, screenWidth, screenWidth, true);
-        original = BitmapFactory.decodeResource(getResources(), outlineId); // Original Image Without Color
-        original = Bitmap.createScaledBitmap(original, screenWidth, screenWidth, true);
+        Bitmap template = BitmapFactory.decodeResource(getResources(), templateId); // Original template image without color
+        template = Bitmap.createScaledBitmap(template, screenWidth, screenWidth, true);
         coloured = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
         coloured = Bitmap.createScaledBitmap(coloured, screenWidth, screenWidth, true);
 
         canvas = new Canvas(coloured);
-        canvas.drawBitmap(original, 0,0, null);
-        imageView.setImageBitmap(original);
+        canvas.drawBitmap(template, 0,0, null);
+        imageView.setImageBitmap(template);
         invalidateOptionsMenu();
     }
 
