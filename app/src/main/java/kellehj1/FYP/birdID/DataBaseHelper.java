@@ -26,11 +26,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     JSONArray birdList;
     Context context;
 
-    public DataBaseHelper(@Nullable Context context, String tableName, String jsonFilename) {
-        super(context, tableName + ".db", null, 1);
+    public DataBaseHelper(@Nullable Context context, String birdType) {
+        super(context, birdType.toUpperCase() + "_TABLE.db", null, 1);
         this.context = context;
-        this.tableName = tableName;
-        this.jsonFilename = jsonFilename;
+        this.tableName = birdType.toUpperCase() + "_TABLE";
+        this.jsonFilename = birdType + ".json";
 
         try {
             birdList = new JSONArray(loadJSONFromAsset(jsonFilename));

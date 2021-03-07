@@ -32,6 +32,7 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
     private int replacementColour;
     private QueueLinearFloodFiller floodFiller;
     private ArrayList<Integer> birdIDMatches = new ArrayList<Integer>();
+    private String birdType;
 
     private final int screenWidth  = Resources.getSystem().getDisplayMetrics().widthPixels;
 
@@ -67,10 +68,9 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String birdType = intent.getStringExtra("kellehj1.FYP.birdID.BIRDTYPE");
+        birdType = intent.getStringExtra("BIRDTYPE");
 
-        dbHelper = new DataBaseHelper(FillActivity.this,
-                birdType.toUpperCase() + "_TABLE",  birdType + ".json");
+        dbHelper = new DataBaseHelper(FillActivity.this, birdType);
         birdIDMatches = dbHelper.getAllIds();
         int maskId = getResources().getIdentifier(birdType + "_mask", "drawable", getPackageName());
         int outlineId = getResources().getIdentifier(birdType + "_outline", "drawable", getPackageName());
@@ -110,6 +110,13 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
                 imageView.setImageBitmap(floodFiller.getImage());
                 imageView.invalidate();
                 invalidateOptionsMenu();
+
+                if (birdIDMatches.size() == 1) {
+                    Intent intent = new Intent(getApplicationContext(), BirdEntryActivity.class);
+                    intent.putExtra("BIRDTYPE", birdType);
+                    intent.putExtra("BIRD_ID", birdIDMatches.get(0));
+                    startActivity(intent);
+                }
             }
         }
         return true;

@@ -9,7 +9,7 @@ import android.view.View;
 
 public class BeakChoiceActivity extends AppCompatActivity {
 
-    public static final String BIRD_TYPE = "kellehj1.FYP.birdID.BIRDTYPE";
+    public static final String BIRD_TYPE = "BIRDTYPE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

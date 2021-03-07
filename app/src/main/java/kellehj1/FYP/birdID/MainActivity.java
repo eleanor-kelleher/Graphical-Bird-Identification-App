@@ -13,9 +13,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DataBaseHelper dbPointedBeak = createTable("POINTED_BEAK_TABLE", "pointed_beak.json");
-        DataBaseHelper dbWideBeak = createTable("WIDE_BEAK_TABLE", "wide_beak.json");
-        DataBaseHelper dbRail = createTable("RAIL_TABLE", "rail.json");
+        DataBaseHelper dbPointedBeak = createTable("pointed_beak");
+        DataBaseHelper dbWideBeak = createTable("wide_beak");
+        DataBaseHelper dbRail = createTable("rail");
 
         goToMenu();
     }
@@ -25,18 +25,18 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private DataBaseHelper createTable( String tableName, String jsonFile) {
-        DataBaseHelper dbHelper = new DataBaseHelper(MainActivity.this, tableName, jsonFile);
+    private DataBaseHelper createTable( String birdType) {
+        DataBaseHelper dbHelper = new DataBaseHelper(MainActivity.this, birdType);
         if (dbHelper.getBirdsCount() > 0) {
-            Toast.makeText(MainActivity.this, "DB " + tableName + " already exists",
+            Toast.makeText(MainActivity.this, birdType + ".db already exists",
                     Toast.LENGTH_SHORT).show();
         }
         else if(dbHelper.addBirds()) {
-            Toast.makeText(MainActivity.this, "DB " + tableName + " created",
+            Toast.makeText(MainActivity.this, birdType + ".db created",
                     Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(MainActivity.this, "Error creating DB " + tableName,
+            Toast.makeText(MainActivity.this, "Error creating" + birdType + ".db",
                     Toast.LENGTH_SHORT).show();
         }
         return dbHelper;
