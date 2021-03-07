@@ -13,9 +13,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DataBaseHelper dbPointedBeak = createTables("POINTED_BEAK_TABLE", "pointed_beak.json");
-        DataBaseHelper dbWideBeak = createTables("WIDE_BEAK_TABLE", "wide_beak.json");
-        DataBaseHelper dbRail = createTables("RAIL_TABLE", "rail.json");
+        DataBaseHelper dbPointedBeak = createTable("POINTED_BEAK_TABLE", "pointed_beak.json");
+        DataBaseHelper dbWideBeak = createTable("WIDE_BEAK_TABLE", "wide_beak.json");
+        DataBaseHelper dbRail = createTable("RAIL_TABLE", "rail.json");
 
         goToMenu();
     }
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private DataBaseHelper createTables( String tableName, String jsonFile) {
+    private DataBaseHelper createTable( String tableName, String jsonFile) {
         DataBaseHelper dbHelper = new DataBaseHelper(MainActivity.this, tableName, jsonFile);
         if (dbHelper.getBirdsCount() > 0) {
             Toast.makeText(MainActivity.this, "DB " + tableName + " already exists",

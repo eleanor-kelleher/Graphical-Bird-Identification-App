@@ -24,4 +24,8 @@
     <string name="title_activity_bird_list">ScrollingActivity</string>
     <string name="tick_next" />
     <string name="fill_image_description">Template image to be filled.</string>
+    <string name="pointed_beak_button_description">Pointed beak button</string>
+    <string name="wide_beak_button_description">Wide beak button</string>
+    <string name="rail_body_button_description">Rail body type button</string>
+    <string name="songbird_body_button_description">Small songbird body type button</string>
 </resources>
