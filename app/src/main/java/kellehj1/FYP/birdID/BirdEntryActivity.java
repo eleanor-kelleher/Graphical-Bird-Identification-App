@@ -6,12 +6,14 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class BirdEntryActivity extends AppCompatActivity {
 
     int birdId;
     String birdType, name, description, latinName, irishName;
+    ImageView imageViewBird;
     TextView textViewName, textViewDescription, textViewLatinName, textViewIrishName;
 
     @Override
@@ -19,6 +21,7 @@ public class BirdEntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bird_entry);
 
+        imageViewBird = findViewById(R.id.imageViewBird);
         textViewName = findViewById(R.id.textViewBirdName);
         textViewDescription = findViewById(R.id.textViewBirdDescription);
         textViewDescription.setMovementMethod(new ScrollingMovementMethod());
@@ -35,5 +38,14 @@ public class BirdEntryActivity extends AppCompatActivity {
         textViewDescription.setText(birdData.getAsString("DESCRIPTION"));
         textViewIrishName.setText(birdData.getAsString("IRISHNAME"));
         textViewLatinName.setText(birdData.getAsString("LATINNAME"));
+
+        imageViewBird = findViewById(R.id.imageViewBird);
+        imageViewBird.setImageResource(getBirdImageId(birdData.getAsString("NAME")));
+    }
+
+    private int getBirdImageId(String birdName) {
+        String imageFileName = "bird_entry_" + birdName.replaceAll(" ", "_").toLowerCase();
+        return getResources().getIdentifier(imageFileName, "drawable", getPackageName());
+
     }
 }

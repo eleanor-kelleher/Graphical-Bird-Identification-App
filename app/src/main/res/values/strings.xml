@@ -28,4 +28,8 @@
     <string name="wide_beak_button_description">Wide beak button</string>
     <string name="rail_body_button_description">Rail body type button</string>
     <string name="songbird_body_button_description">Small songbird body type button</string>
+    <string name="bird_entry_name">temp name</string>
+    <string name="bird_entry_latin_name">temp latin name</string>
+    <string name="bird_entry_irish_name">temp irish name</string>
+    <string name="bird_entry_description">temp description</string>
 </resources>
