@@ -20,26 +20,27 @@ import java.util.Iterator;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
-    String[] createTableStatements;
+    int tableCount = 0;
     String[] birdTypes;
     String[] tableNames;
     String[] jsonFilenames;
     JSONArray[] birdJsonArrays;
+    String[] createTableStatements;
     Context context;
 
-    public DataBaseHelper(@Nullable Context context, String[] birdTypes) {
+    public DataBaseHelper(@Nullable Context context) {
         super(context, "BIRDS.db", null, 1);
         this.context = context;
+        tableCount = Constants.birdTypes.length;
+        this.birdTypes = new String[tableCount];
+        this.tableNames = new String[tableCount];
+        this.jsonFilenames = new String[tableCount];
+        this.birdJsonArrays = new JSONArray[tableCount];
+        this.createTableStatements = new String[tableCount];
 
-        for(int i = 0; i < birdTypes.length; i++) {
+       for(int i = 0; i < tableCount; i++) {
 
-            this.birdTypes = new String[birdTypes.length];
-            this.tableNames = new String[birdTypes.length];
-            this.jsonFilenames = new String[birdTypes.length];
-            this.birdJsonArrays = new JSONArray[birdTypes.length];
-            this.createTableStatements = new String[birdTypes.length];
-
-            this.birdTypes[i] = birdTypes[i];
+            this.birdTypes[i] = Constants.birdTypes[i];
             this.tableNames[i] = toTableFormat(birdTypes[i]);
             this.jsonFilenames[i] = birdTypes[i] + ".json";
 
@@ -54,20 +55,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public DataBaseHelper(@Nullable Context context) {
-        super(context, "BIRDS.db", null, 1);
-    }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
-        for (int i = 0; i < birdTypes.length; i++) {
+        for (int i = 0; i < tableCount; i++) {
             db.execSQL(createTableStatements[i]);
         }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        for(int i = 0; i < birdTypes.length; i++) {
+        for(int i = 0; i < tableCount; i++) {
             db.execSQL("DROP TABLE IF EXISTS " + tableNames[i]);
         }
         onCreate(db);
@@ -80,7 +77,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public boolean addBirds(String birdType) {
         SQLiteDatabase db = this.getWritableDatabase();
         try {
-            for (int i = 0; i < birdJsonArrays[i].length(); i++) {
+            for (int i = 0; i < tableCount; i++) {
                 ContentValues cv = new ContentValues();
                 JSONObject bird = birdJsonArrays[i].getJSONObject(i);
                 Iterator<String> keys = bird.keys();
@@ -112,8 +109,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-
-    // Getting contacts Count
     public int getBirdsCount(String birdType) {
         String countQuery = "SELECT * FROM " + toTableFormat(birdType);
         SQLiteDatabase db = this.getReadableDatabase();
@@ -142,7 +137,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Integer> ids = new ArrayList<Integer>();
         try {
-            String matchQuery = "SELECT * FROM " + toTableFormat(birdType) + " WHERE NAME!='MASK'";;
+            String matchQuery = "SELECT * FROM " + toTableFormat(birdType) + " WHERE NAME!='MASK'";
             Cursor cursor = db.rawQuery(matchQuery, null);
             if (cursor != null) {
                 if  (cursor.moveToFirst()) {

@@ -9,8 +9,6 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    String[] birdTypes = {"pointed_beak", "rail", "wide_beak"};
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private DataBaseHelper createTables() {
-        DataBaseHelper dbHelper = new DataBaseHelper(MainActivity.this, birdTypes);
+        DataBaseHelper dbHelper = new DataBaseHelper(MainActivity.this);
 
         if (dbHelper.getAllBirdsCount() > 0) {
             Log.i("Initial Setup", "BIRDS.db already exists");
@@ -30,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
         else {
-            for (String birdType : birdTypes) {
+            for (String birdType : Constants.birdTypes) {
                 if (dbHelper.addBirds(birdType)) {
                     Log.i("Initial Setup", birdType + " table created");
                     Toast.makeText(MainActivity.this, birdType + " table created",

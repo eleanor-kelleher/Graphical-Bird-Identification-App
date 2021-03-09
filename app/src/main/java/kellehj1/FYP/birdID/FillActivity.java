@@ -40,27 +40,6 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
     private final int screenWidth  = Resources.getSystem().getDisplayMetrics().widthPixels;
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(String.valueOf(birdIDMatches.size()) + " matches found");
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    // Links the back button to the previous activity
-    public boolean onOptionsItemSelected(MenuItem item){
-        Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
-        startActivity(intent);
-        //startActivityForResult(intent, 0);
-        return true;
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill);
@@ -90,6 +69,27 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         canvas.drawBitmap(template, 0,0, null);
         imageView.setImageBitmap(template);
         invalidateOptionsMenu();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(String.valueOf(birdIDMatches.size()) + " matches found");
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    // Links the back button to the previous activity
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+        startActivity(intent);
+        //startActivityForResult(intent, 0);
+        return true;
     }
 
     public boolean onTouch(View arg0, MotionEvent arg1) {
