@@ -39,7 +39,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         this.createTableStatements = new String[tableCount];
 
        for(int i = 0; i < tableCount; i++) {
-
             this.birdTypes[i] = Constants.birdTypes[i];
             this.tableNames[i] = toTableFormat(birdTypes[i]);
             this.jsonFilenames[i] = birdTypes[i] + ".json";
@@ -74,19 +73,29 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return birdType.toUpperCase() + "_TABLE";
     }
 
+    public int getBirdIndex(String birdType) {
+        int index = 0;
+        for(int i = 0; i < tableCount; i++) {
+            if(birdType.equals(birdTypes[i])) {
+                index = i;
+            }
+        }
+        return index;
+    }
+
     public boolean addBirds(String birdType) {
         SQLiteDatabase db = this.getWritableDatabase();
+        int index = getBirdIndex(birdType);
         try {
-            for (int i = 0; i < tableCount; i++) {
+            for (int i = 0; i < birdJsonArrays[index].length(); i++) {
                 ContentValues cv = new ContentValues();
-                JSONObject bird = birdJsonArrays[i].getJSONObject(i);
+                JSONObject bird = birdJsonArrays[index].getJSONObject(i);
                 Iterator<String> keys = bird.keys();
 
                 while (keys.hasNext()) {
                     String key = keys.next();
                     cv.put(key, String.valueOf(bird.get(key)));
                 }
-
                 long insert = db.insertOrThrow(toTableFormat(birdType), null, cv);
                 if (insert == -1) {
                     return false;
