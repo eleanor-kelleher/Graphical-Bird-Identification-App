@@ -14,31 +14,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DataBaseHelper dbPointedBeak = createTable("pointed_beak");
-        DataBaseHelper dbWideBeak = createTable("wide_beak");
-        DataBaseHelper dbRail = createTable("rail");
+        DataBaseHelper db = createTables();
 
         goToMenu();
+    }
+
+    private DataBaseHelper createTables() {
+        DataBaseHelper dbHelper = new DataBaseHelper(MainActivity.this);
+
+        if (dbHelper.getAllBirdsCount() > 0) {
+            Log.i("Initial Setup", "BIRDS.db already exists");
+            Toast.makeText(MainActivity.this, "BIRDS.db already exists",
+                    Toast.LENGTH_SHORT).show();
+        }
+        else {
+            for (String birdType : Constants.birdTypes) {
+                if (dbHelper.addBirds(birdType)) {
+                    Log.i("Initial Setup", birdType + " table created");
+                    Toast.makeText(MainActivity.this, birdType + " table created",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("Initial Setup", "Error creating" + birdType + " table");
+                    Toast.makeText(MainActivity.this, "Error creating" + birdType + " table",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        return dbHelper;
     }
 
     private void goToMenu() {
         Intent intent = new Intent(this, MainMenuActivity.class);
         startActivity(intent);
-    }
-
-    private DataBaseHelper createTable( String birdType) {
-        DataBaseHelper dbHelper = new DataBaseHelper(MainActivity.this, birdType);
-        if (dbHelper.getBirdsCount() > 0) {
-            Log.i("Initial Setup", birdType + ".db already exists");
-        }
-        else if(dbHelper.addBirds()) {
-            Log.i("Initial Setup", birdType + ".db created");
-        }
-        else {
-            Log.e("Initial Setup", "Error creating" + birdType + ".db");
-            Toast.makeText(MainActivity.this, "Error creating" + birdType + ".db",
-                    Toast.LENGTH_SHORT).show();
-        }
-        return dbHelper;
     }
 }

@@ -40,6 +40,38 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
     private final int screenWidth  = Resources.getSystem().getDisplayMetrics().widthPixels;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_fill);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        imageView = (ImageView) findViewById(R.id.imageViewTemplate);
+        imageView.setOnTouchListener(this);
+        lastButtonClicked = findViewById(R.id.button_black);
+
+        // Get the Intent that started this activity and extract the string
+        Intent intent = getIntent();
+        birdType = intent.getStringExtra("BIRDTYPE");
+
+        dbHelper = new DataBaseHelper(FillActivity.this);
+        birdIDMatches = dbHelper.getTableIds(birdType);
+        int maskId = getResources().getIdentifier("mask_" + birdType, "drawable", getPackageName());
+        int templateId = getResources().getIdentifier("template_" + birdType, "drawable", getPackageName());
+
+        mask = BitmapFactory.decodeResource(getResources(), maskId); // Mask Image
+        mask = Bitmap.createScaledBitmap(mask, screenWidth, screenWidth, true);
+        Bitmap template = BitmapFactory.decodeResource(getResources(), templateId); // Original template image without color
+        template = Bitmap.createScaledBitmap(template, screenWidth, screenWidth, true);
+        coloured = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
+        coloured = Bitmap.createScaledBitmap(coloured, screenWidth, screenWidth, true);
+
+        canvas = new Canvas(coloured);
+        canvas.drawBitmap(template, 0,0, null);
+        imageView.setImageBitmap(template);
+        invalidateOptionsMenu();
+    }
+
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(String.valueOf(birdIDMatches.size()) + " matches found");
@@ -60,38 +92,6 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         return true;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fill);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        imageView = (ImageView) findViewById(R.id.imageViewTemplate);
-        imageView.setOnTouchListener(this);
-        lastButtonClicked = findViewById(R.id.button_black);
-
-        // Get the Intent that started this activity and extract the string
-        Intent intent = getIntent();
-        birdType = intent.getStringExtra("BIRDTYPE");
-
-        dbHelper = new DataBaseHelper(FillActivity.this, birdType);
-        birdIDMatches = dbHelper.getAllIds();
-        int maskId = getResources().getIdentifier("mask_" + birdType, "drawable", getPackageName());
-        int templateId = getResources().getIdentifier("template_" + birdType, "drawable", getPackageName());
-
-        mask = BitmapFactory.decodeResource(getResources(), maskId); // Mask Image
-        mask = Bitmap.createScaledBitmap(mask, screenWidth, screenWidth, true);
-        Bitmap template = BitmapFactory.decodeResource(getResources(), templateId); // Original template image without color
-        template = Bitmap.createScaledBitmap(template, screenWidth, screenWidth, true);
-        coloured = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
-        coloured = Bitmap.createScaledBitmap(coloured, screenWidth, screenWidth, true);
-
-        canvas = new Canvas(coloured);
-        canvas.drawBitmap(template, 0,0, null);
-        imageView.setImageBitmap(template);
-        invalidateOptionsMenu();
-    }
-
     public boolean onTouch(View arg0, MotionEvent arg1) {
         int x = (int) arg1.getX();
         int y = (int) arg1.getY();
@@ -102,8 +102,8 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
 
         if (targetColour != Color.BLACK && maskColour != Color.BLACK && targetColour != replacementColour) {
 
-            String section = dbHelper.getColouredSection(maskColour);
-            ArrayList<Integer> currentMatches = dbHelper.getMatches(section, replacementColour, birdIDMatches);
+            String section = dbHelper.getColouredSection(maskColour, birdType);
+            ArrayList<Integer> currentMatches = dbHelper.getMatches(section, replacementColour, birdIDMatches, birdType);
             if (currentMatches.isEmpty()) {
                 Toast.makeText(FillActivity.this, "There is no such bird.", Toast.LENGTH_SHORT).show();
             }
