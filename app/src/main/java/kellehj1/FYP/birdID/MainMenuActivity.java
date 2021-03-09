@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class MainMenuActivity extends AppCompatActivity {
 
@@ -25,7 +24,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     /** Called when the user taps the New Bird ID button */
     public void newBirdID(View view) {
-        Intent intent = new Intent(this, BodyChoiceActivity.class);
+        Intent intent = new Intent(this, ChooseBodyActivity.class);
         startActivity(intent);
     }
 

@@ -11,8 +11,7 @@ import android.widget.TextView;
 
 public class BirdEntryActivity extends AppCompatActivity {
 
-    int birdId;
-    String birdType, name, description, latinName, irishName;
+    String birdType, birdName, name, description, latinName, irishName;
     ImageView imageViewBird;
     TextView textViewName, textViewDescription, textViewLatinName, textViewIrishName;
 
@@ -30,10 +29,10 @@ public class BirdEntryActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         birdType = intent.getStringExtra("BIRDTYPE");
-        birdId = intent.getIntExtra("BIRD_ID", -1);
+        birdName = intent.getStringExtra("BIRD_NAME");
 
         DataBaseHelper dbHelper = new DataBaseHelper(BirdEntryActivity.this);
-        ContentValues birdData = dbHelper.getBirdDataFromID(birdId, birdType);
+        ContentValues birdData = dbHelper.getBirdDataFromName(birdName, birdType);
         textViewName.setText(birdData.getAsString("NAME"));
         textViewDescription.setText(birdData.getAsString("DESCRIPTION"));
         textViewIrishName.setText(birdData.getAsString("IRISHNAME"));
@@ -46,6 +45,5 @@ public class BirdEntryActivity extends AppCompatActivity {
     private int getBirdImageId(String birdName) {
         String imageFileName = "bird_entry_" + birdName.replaceAll(" ", "_").toLowerCase();
         return getResources().getIdentifier(imageFileName, "drawable", getPackageName());
-
     }
 }

@@ -15,6 +15,7 @@ import org.json.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -67,10 +68,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS " + tableNames[i]);
         }
         onCreate(db);
-    }
-
-    public String toTableFormat(String birdType) {
-        return birdType.toUpperCase() + "_TABLE";
     }
 
     public int getBirdIndex(String birdType) {
@@ -134,25 +131,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    public ArrayList<Integer> getAllIds() {
-        ArrayList<Integer> allIds = new ArrayList<Integer>();
+    public ArrayList<String> getAllBirdNames() {
+        ArrayList<String> allBirds = new ArrayList<String>();
         for(String birdType : birdTypes) {
-            allIds.addAll(getTableIds(birdType));
+            allBirds.addAll(getTableBirdNames(birdType));
         }
-        return allIds;
+        return allBirds;
     }
 
-    public ArrayList<Integer> getTableIds(String birdType) {
+    public ArrayList<String> getTableBirdNames(String birdType) {
         SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<Integer> ids = new ArrayList<Integer>();
+        ArrayList<String>  birds = new ArrayList<String>();
         try {
             String matchQuery = "SELECT * FROM " + toTableFormat(birdType) + " WHERE NAME!='MASK'";
             Cursor cursor = db.rawQuery(matchQuery, null);
             if (cursor != null) {
                 if  (cursor.moveToFirst()) {
                     do {
-                        int id = cursor.getInt(0);
-                        ids.add(id);
+                        birds.add(cursor.getString(1));
                     }
                     while (cursor.moveToNext());
                 }
@@ -165,15 +161,40 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         finally {
             db.close();
         }
-        return ids;
+        return birds;
     }
 
-    public ContentValues getBirdDataFromID(int id, String birdType) {
+//    public ArrayList<ContentValues> getListOfBirds() {
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        ArrayList<ContentValues> data = new ArrayList<ContentValues>();
+//        String listOfTables = toCSV(tableNames);
+//        try {
+//            String dataQuery = "SELECT ID, NAME, LATINNAME, IRISHNAME, FROM " + listOfTables;
+//            Cursor cursor = db.rawQuery(dataQuery, null);
+//            if (cursor != null) {
+//                cursor.moveToFirst();
+//                for (int i = 0; i < cursor.getColumnCount() ; i++) {
+//                    String column = cursor.getColumnName(i);
+//                    data.put(cursor.getColumnName(i), cursor.getString(i));
+//                }
+//            }
+//            cursor.close();
+//        }
+//        catch (Exception e) {
+//        Log.e("", "exception : " + e.toString());
+//    }
+//        finally {
+//        db.close();
+//    }
+//        return data;
+//    }
+
+    public ContentValues getBirdDataFromName(String name, String birdType) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues data = new ContentValues();
         try {
             String dataQuery = "SELECT NAME, LATINNAME, IRISHNAME, DESCRIPTION FROM "
-                    + toTableFormat(birdType) + " WHERE ID = " + id;
+                    + toTableFormat(birdType) + " WHERE NAME = \"" + name + "\"";
             Cursor cursor = db.rawQuery(dataQuery, null);
             if (cursor != null) {
                 cursor.moveToFirst();
@@ -193,7 +214,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    public String getColouredSection(int maskSectionColour, String birdType) {
+    public String getColouredSectionName(int maskSectionColour, String birdType) {
         SQLiteDatabase db = this.getReadableDatabase();
         String maskSection = "";
         try {
@@ -222,9 +243,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return maskSection;
     }
 
-    public ArrayList<Integer> getMatches(String section, int replacementColour, ArrayList<Integer> priorMatches, String birdType) {
+    public ArrayList<String> getMatches(String section, int replacementColour, ArrayList<String> priorMatches, String birdType) {
         SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<Integer> matches = new ArrayList<Integer>();
+        ArrayList<String> matches = new ArrayList<String>();
         String hexColor = String.format("#%06X", (0xFFFFFF & replacementColour));
         try {
             String matchQuery = "SELECT * FROM " + toTableFormat(birdType) + " WHERE " + section + "='" + hexColor + "'";
@@ -232,8 +253,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             if (cursor != null) {
                 if  (cursor.moveToFirst()) {
                     do {
-                        int id = cursor.getInt(0);
-                        matches.add(id);
+                        String name = cursor.getString(1);
+                        matches.add(name);
                     }
                     while (cursor.moveToNext());
                 }
@@ -261,6 +282,22 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
 
         return list;
+    }
+
+    public static String toCSV(String[] array) {
+        String result = "";
+        if (array.length > 0) {
+            StringBuilder sb = new StringBuilder();
+            for (String s : array) {
+                sb.append(s).append(",");
+            }
+            result = sb.deleteCharAt(sb.length() - 1).toString();
+        }
+        return result;
+    }
+
+    public static String toTableFormat(String birdType) {
+        return birdType.toUpperCase() + "_TABLE";
     }
 
     public String loadJSONFromAsset(String filename) {

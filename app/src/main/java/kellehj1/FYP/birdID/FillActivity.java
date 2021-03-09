@@ -34,7 +34,7 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
     private Bitmap coloured;
     private int replacementColour;
     private QueueLinearFloodFiller floodFiller;
-    private ArrayList<Integer> birdIDMatches = new ArrayList<Integer>();
+    private ArrayList<String> birdNameMatches = new ArrayList<String>();
     private String birdType;
 
     private final int screenWidth  = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -54,7 +54,7 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         birdType = intent.getStringExtra("BIRDTYPE");
 
         dbHelper = new DataBaseHelper(FillActivity.this);
-        birdIDMatches = dbHelper.getTableIds(birdType);
+        birdNameMatches = dbHelper.getTableBirdNames(birdType);
         int maskId = getResources().getIdentifier("mask_" + birdType, "drawable", getPackageName());
         int templateId = getResources().getIdentifier("template_" + birdType, "drawable", getPackageName());
 
@@ -74,7 +74,7 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(String.valueOf(birdIDMatches.size()) + " matches found");
+        actionBar.setTitle(String.valueOf(birdNameMatches.size()) + " matches found");
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -102,23 +102,23 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
 
         if (targetColour != Color.BLACK && maskColour != Color.BLACK && targetColour != replacementColour) {
 
-            String section = dbHelper.getColouredSection(maskColour, birdType);
-            ArrayList<Integer> currentMatches = dbHelper.getMatches(section, replacementColour, birdIDMatches, birdType);
+            String section = dbHelper.getColouredSectionName(maskColour, birdType);
+            ArrayList<String> currentMatches = dbHelper.getMatches(section, replacementColour, birdNameMatches, birdType);
             if (currentMatches.isEmpty()) {
                 Toast.makeText(FillActivity.this, "There is no such bird.", Toast.LENGTH_SHORT).show();
             }
             else {
-                birdIDMatches = currentMatches;
+                birdNameMatches = currentMatches;
                 floodFiller = new QueueLinearFloodFiller(coloured, targetColour, replacementColour);
                 floodFiller.floodFill(x, y);
                 imageView.setImageBitmap(floodFiller.getImage());
                 imageView.invalidate();
                 invalidateOptionsMenu();
 
-                if (birdIDMatches.size() == 1) {
+                if (birdNameMatches.size() == 1) {
                     Intent intent = new Intent(getApplicationContext(), BirdEntryActivity.class);
                     intent.putExtra("BIRDTYPE", birdType);
-                    intent.putExtra("BIRD_ID", birdIDMatches.get(0));
+                    intent.putExtra("BIRD_NAME", birdNameMatches.get(0));
                     startActivity(intent);
                 }
             }
