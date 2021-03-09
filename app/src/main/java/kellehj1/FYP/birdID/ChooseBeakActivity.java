@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
-public class BeakChoiceActivity extends AppCompatActivity {
+public class ChooseBeakActivity extends AppCompatActivity {
 
     public static final String BIRD_TYPE = "BIRDTYPE";
 
@@ -20,9 +20,8 @@ public class BeakChoiceActivity extends AppCompatActivity {
 
     // Links the back button to the previous activity
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent intent = new Intent(getApplicationContext(), BodyChoiceActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ChooseBodyActivity.class);
         startActivity(intent);
-        //startActivityForResult(intent, 0);
         return true;
     }
 

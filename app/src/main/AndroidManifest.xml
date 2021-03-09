@@ -25,15 +25,16 @@
             android:label="@string/fill_tool_title">
         </activity>
 
-        <activity android:name=".BodyChoiceActivity"
+        <activity android:name=".ChooseBodyActivity"
             android:label="@string/body_choice_title">
         </activity>
 
-        <activity android:name=".BeakChoiceActivity"
+        <activity android:name=".ChooseBeakActivity"
             android:label="@string/beak_choice_title">
         </activity>
 
         <activity android:name=".BirdEntryActivity" />
+
         <activity
             android:name=".BirdListActivity"
             android:label="@string/bird_list_title">
