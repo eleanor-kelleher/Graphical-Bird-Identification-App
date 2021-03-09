@@ -74,8 +74,8 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         Intent intent = getIntent();
         birdType = intent.getStringExtra("BIRDTYPE");
 
-        dbHelper = new DataBaseHelper(FillActivity.this, birdType);
-        birdIDMatches = dbHelper.getAllIds();
+        dbHelper = new DataBaseHelper(FillActivity.this);
+        birdIDMatches = dbHelper.getTableIds(birdType);
         int maskId = getResources().getIdentifier("mask_" + birdType, "drawable", getPackageName());
         int templateId = getResources().getIdentifier("template_" + birdType, "drawable", getPackageName());
 
@@ -102,8 +102,8 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
 
         if (targetColour != Color.BLACK && maskColour != Color.BLACK && targetColour != replacementColour) {
 
-            String section = dbHelper.getColouredSection(maskColour);
-            ArrayList<Integer> currentMatches = dbHelper.getMatches(section, replacementColour, birdIDMatches);
+            String section = dbHelper.getColouredSection(maskColour, birdType);
+            ArrayList<Integer> currentMatches = dbHelper.getMatches(section, replacementColour, birdIDMatches, birdType);
             if (currentMatches.isEmpty()) {
                 Toast.makeText(FillActivity.this, "There is no such bird.", Toast.LENGTH_SHORT).show();
             }

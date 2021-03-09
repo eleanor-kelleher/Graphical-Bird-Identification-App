@@ -32,8 +32,8 @@ public class BirdEntryActivity extends AppCompatActivity {
         birdType = intent.getStringExtra("BIRDTYPE");
         birdId = intent.getIntExtra("BIRD_ID", -1);
 
-        DataBaseHelper dbHelper = new DataBaseHelper(BirdEntryActivity.this, birdType);
-        ContentValues birdData = dbHelper.getBirdDataFromID(birdId);
+        DataBaseHelper dbHelper = new DataBaseHelper(BirdEntryActivity.this);
+        ContentValues birdData = dbHelper.getBirdDataFromID(birdId, birdType);
         textViewName.setText(birdData.getAsString("NAME"));
         textViewDescription.setText(birdData.getAsString("DESCRIPTION"));
         textViewIrishName.setText(birdData.getAsString("IRISHNAME"));
