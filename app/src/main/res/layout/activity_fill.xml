@@ -8,7 +8,7 @@
     tools:context="kellehj1.FYP.birdID.FillActivity">
 
     <ImageView
-        android:id="@+id/fill_image"
+        android:id="@+id/imageViewTemplate"
         android:contentDescription="@string/fill_image_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,6 +16,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/viewDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewTemplate"/>
 
     <Button
         android:id="@+id/button_orange"
@@ -26,8 +39,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="32dp"
-        android:onClick="setColourOrange"
-        app:backgroundTint="@color/bird_orange"
+        android:onClick="setColour"
+        app:backgroundTint="@color/button_orange"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_green"
         app:layout_constraintStart_toEndOf="@+id/button_blue"
@@ -41,8 +55,9 @@
         android:layout_marginLeft="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:onClick="setColourBrown"
-        app:backgroundTint="@color/bird_brown"
+        android:onClick="setColour"
+        app:backgroundTint="@color/button_brown"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/button_blue"
         app:layout_constraintEnd_toStartOf="@+id/button_red"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,8 +71,9 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:onClick="setColourRed"
-        app:backgroundTint="@color/bird_red"
+        android:onClick="setColour"
+        app:backgroundTint="@color/button_red"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/button_orange"
         app:layout_constraintEnd_toStartOf="@+id/button_yellow"
         app:layout_constraintStart_toEndOf="@+id/button_brown"
@@ -69,15 +85,16 @@
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:onClick="setColourBlack"
-        app:backgroundTint="@color/bird_black"
+        android:onClick="setColour"
+        app:backgroundTint="@color/button_black"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/button_brown"
         app:layout_constraintEnd_toStartOf="@+id/button_grey"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fill_image" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewTemplate" />
 
     <Button
         android:id="@+id/button_grey"
@@ -85,15 +102,16 @@
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:onClick="setColourGrey"
-        app:backgroundTint="@color/bird_grey"
+        android:onClick="setColour"
+        app:backgroundTint="@color/button_grey"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/button_red"
         app:layout_constraintEnd_toStartOf="@+id/button_white"
         app:layout_constraintStart_toEndOf="@+id/button_black"
-        app:layout_constraintTop_toBottomOf="@+id/fill_image" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewTemplate" />
 
     <Button
         android:id="@+id/button_white"
@@ -101,15 +119,16 @@
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:onClick="setColourWhite"
-        app:backgroundTint="@color/bird_white"
+        android:onClick="setColour"
+        app:backgroundTint="@color/button_white"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/button_yellow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_grey"
-        app:layout_constraintTop_toBottomOf="@+id/fill_image" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewTemplate" />
 
     <Button
         android:id="@+id/button_yellow"
@@ -119,8 +138,9 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:onClick="setColourYellow"
-        app:backgroundTint="@color/bird_yellow"
+        android:onClick="setColour"
+        app:backgroundTint="@color/button_yellow"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/button_green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_red"
@@ -135,8 +155,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="32dp"
-        android:onClick="setColourBlue"
-        app:backgroundTint="@color/bird_blue"
+        android:onClick="setColour"
+        app:backgroundTint="@color/button_blue"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_orange"
         app:layout_constraintStart_toStartOf="parent"
@@ -151,8 +172,9 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginBottom="32dp"
-        android:onClick="setColourGreen"
-        app:backgroundTint="@color/bird_green"
+        android:onClick="setColour"
+        app:backgroundTint="@color/button_green"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_orange"

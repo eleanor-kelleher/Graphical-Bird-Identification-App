@@ -66,7 +66,7 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         setContentView(R.layout.activity_fill);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        imageView = (ImageView) findViewById(R.id.fill_image);
+        imageView = (ImageView) findViewById(R.id.imageViewTemplate);
         imageView.setOnTouchListener(this);
         lastButtonClicked = findViewById(R.id.button_black);
 
@@ -127,59 +127,13 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
     }
 
     //colour functions
-    public void setColourBlack(View view) {
-        replacementColour = getResources().getColor(R.color.bird_black);
+    public void setColour(View view) {
+        String fullButtonName = getResources().getResourceName(view.getId());
+        String buttonColour = fullButtonName.substring(fullButtonName.lastIndexOf("/") + 1);
+        int colourId = getResources().getIdentifier(buttonColour, "color", getPackageName());
+        replacementColour = getResources().getColor(colourId);
         lastButtonClicked.getBackground().setAlpha(255);
-        view.getBackground().setAlpha(192);
+        view.getBackground().setAlpha(170);
         lastButtonClicked = (Button) view;
     }
-    public void setColourGrey(View view) {
-        replacementColour = getResources().getColor(R.color.bird_grey);
-        lastButtonClicked.getBackground().setAlpha(255);
-        view.getBackground().setAlpha(64);
-        lastButtonClicked = (Button) view;
-    }
-    public void setColourWhite(View view) {
-        replacementColour = getResources().getColor(R.color.bird_white);
-        lastButtonClicked.getBackground().setAlpha(255);
-        view.getBackground().setAlpha(64);
-        lastButtonClicked = (Button) view;
-    }
-    public void setColourBrown(View view) {
-        replacementColour = getResources().getColor(R.color.bird_brown);
-        lastButtonClicked.getBackground().setAlpha(255);
-        view.getBackground().setAlpha(64);
-        lastButtonClicked = (Button) view;
-    }
-    public void setColourRed(View view) {
-        replacementColour = getResources().getColor(R.color.bird_red);
-        lastButtonClicked.getBackground().setAlpha(255);
-        view.getBackground().setAlpha(64);
-        lastButtonClicked = (Button) view;
-    }
-    public void setColourYellow(View view) {
-        replacementColour = getResources().getColor(R.color.bird_yellow);
-        lastButtonClicked.getBackground().setAlpha(255);
-        view.getBackground().setAlpha(64);
-        lastButtonClicked = (Button) view;
-    }
-    public void setColourBlue(View view) {
-        replacementColour = getResources().getColor(R.color.bird_blue);
-        lastButtonClicked.getBackground().setAlpha(255);
-        view.getBackground().setAlpha(64);
-        lastButtonClicked = (Button) view;
-    }
-    public void setColourOrange(View view) {
-        replacementColour = getResources().getColor(R.color.bird_orange);
-        lastButtonClicked.getBackground().setAlpha(255);
-        view.getBackground().setAlpha(64);
-        lastButtonClicked = (Button) view;
-    }
-    public void setColourGreen(View view) {
-        replacementColour = getResources().getColor(R.color.bird_green);
-        lastButtonClicked.getBackground().setAlpha(255);
-        view.getBackground().setAlpha(64);
-        lastButtonClicked = (Button) view;
-    }
-
 }

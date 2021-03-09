@@ -24,13 +24,13 @@
     <color name="cultured">#FFF0F1F2</color>
 
     <!-- bird colours -->
-    <color name="bird_black">#FF3B3B3B</color>
-    <color name="bird_grey">#FF7F7F7F</color>
-    <color name="bird_white">#FFFFFFFF</color>
-    <color name="bird_brown">#FF8B573A</color>
-    <color name="bird_red">#FFF2575F</color>
-    <color name="bird_yellow">#FFFFF74F</color>
-    <color name="bird_blue">#FF6178D3</color>
-    <color name="bird_orange">#FFFF7F27</color>
-    <color name="bird_green">#FFA7E463</color>
+    <color name="button_black">#FF3B3B3B</color>
+    <color name="button_grey">#FF7F7F7F</color>
+    <color name="button_white">#FFFFFFFF</color>
+    <color name="button_brown">#FF8B573A</color>
+    <color name="button_red">#FFF2575F</color>
+    <color name="button_yellow">#FFFFF74F</color>
+    <color name="button_blue">#FF6178D3</color>
+    <color name="button_orange">#FFFF7F27</color>
+    <color name="button_green">#FFA7E463</color>
 </resources>

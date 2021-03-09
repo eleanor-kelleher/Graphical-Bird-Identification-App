@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,14 +29,13 @@ public class MainActivity extends AppCompatActivity {
     private DataBaseHelper createTable( String birdType) {
         DataBaseHelper dbHelper = new DataBaseHelper(MainActivity.this, birdType);
         if (dbHelper.getBirdsCount() > 0) {
-            Toast.makeText(MainActivity.this, birdType + ".db already exists",
-                    Toast.LENGTH_SHORT).show();
+            Log.i("Initial Setup", birdType + ".db already exists");
         }
         else if(dbHelper.addBirds()) {
-            Toast.makeText(MainActivity.this, birdType + ".db created",
-                    Toast.LENGTH_SHORT).show();
+            Log.i("Initial Setup", birdType + ".db created");
         }
         else {
+            Log.e("Initial Setup", "Error creating" + birdType + ".db");
             Toast.makeText(MainActivity.this, "Error creating" + birdType + ".db",
                     Toast.LENGTH_SHORT).show();
         }
