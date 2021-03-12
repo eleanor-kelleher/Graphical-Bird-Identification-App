@@ -100,8 +100,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             }
         } catch (Exception e) {
             Log.e("", "exception : " + e.toString());
-        }
-        finally {
+        } finally {
             db.close();
         }
         return true;
@@ -121,11 +120,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         int count = 0;
         try {
             count = (int) DatabaseUtils.queryNumEntries(db, toTableFormat(birdType));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.e("", "exception : " + e.toString());
-        }
-        finally {
+        } finally {
             db.close();
         }
         return count;
@@ -154,40 +151,50 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 }
                 cursor.close();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.e("", "exception : " + e.toString());
-        }
-        finally {
+        } finally {
             db.close();
         }
         return birds;
     }
 
-//    public ArrayList<ContentValues> getListOfBirds() {
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        ArrayList<ContentValues> data = new ArrayList<ContentValues>();
-//        String listOfTables = toCSV(tableNames);
-//        try {
-//            String dataQuery = "SELECT ID, NAME, LATINNAME, IRISHNAME, FROM " + listOfTables;
-//            Cursor cursor = db.rawQuery(dataQuery, null);
-//            if (cursor != null) {
-//                cursor.moveToFirst();
-//                for (int i = 0; i < cursor.getColumnCount() ; i++) {
-//                    String column = cursor.getColumnName(i);
-//                    data.put(cursor.getColumnName(i), cursor.getString(i));
-//                }
-//            }
-//            cursor.close();
-//        }
-//        catch (Exception e) {
-//        Log.e("", "exception : " + e.toString());
-//    }
-//        finally {
-//        db.close();
-//    }
-//        return data;
-//    }
+    public ArrayList<ContentValues> getBirdList() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<ContentValues> birdList = new ArrayList<>();
+        //generate query string
+        String queryPrefix = "SELECT NAME, LATINNAME, IRISHNAME FROM ";
+        StringBuilder querySb = new StringBuilder();
+        for(int i =0; i < tableCount; i++) {
+            querySb.append(queryPrefix).append(tableNames[i]);
+            querySb.append(" UNION ");
+        }
+        querySb.delete(querySb.length() - 7, querySb.length());
+        String query = querySb.toString();
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor != null) {
+                if  (cursor.moveToFirst()) {
+                    do {
+                        ContentValues bird = new ContentValues();
+
+                        for (int i = 0; i < cursor.getColumnCount(); i++) {
+                            bird.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        if (!bird.get("NAME").equals("MASK")) {
+                            birdList.add(bird);
+                        }
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
+            }
+        } catch (Exception e) {
+        Log.e("", "exception : " + e.toString());
+        } finally {
+            db.close();
+        }
+        return birdList;
+    }
 
     public ContentValues getBirdDataFromName(String name, String birdType) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -199,16 +206,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             if (cursor != null) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getColumnCount() ; i++) {
-                    String column = cursor.getColumnName(i);
                     data.put(cursor.getColumnName(i), cursor.getString(i));
                 }
             }
             cursor.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.e("", "exception : " + e.toString());
-        }
-        finally {
+        } finally {
             db.close();
         }
         return data;
@@ -233,11 +237,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 cursor.close();
                 db.close();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.e("", "exception : " + e.toString());
-        }
-        finally {
+        } finally {
             db.close();
         }
         return maskSection;
@@ -245,26 +247,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<String> getMatches(String section, int replacementColour, ArrayList<String> priorMatches, String birdType) {
         SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<String> matches = new ArrayList<String>();
+        ArrayList<String> matches = new ArrayList<>();
         String hexColor = String.format("#%06X", (0xFFFFFF & replacementColour));
         try {
             String matchQuery = "SELECT * FROM " + toTableFormat(birdType) + " WHERE " + section + "='" + hexColor + "'";
             Cursor cursor = db.rawQuery(matchQuery, null);
             if (cursor != null) {
-                if  (cursor.moveToFirst()) {
+                if (cursor.moveToFirst()) {
                     do {
-                        String name = cursor.getString(1);
-                        matches.add(name);
+                        // add name to matches
+                        matches.add(cursor.getString(1));
                     }
                     while (cursor.moveToNext());
                 }
                 cursor.close();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.e("", "exception : " + e.toString());
-        }
-        finally {
+        } finally {
             db.close();
         }
 
@@ -280,7 +280,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 list.add(t);
             }
         }
-
         return list;
     }
 
@@ -289,9 +288,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if (array.length > 0) {
             StringBuilder sb = new StringBuilder();
             for (String s : array) {
-                sb.append(s).append(",");
+                sb.append(s).append(", ");
             }
-            result = sb.deleteCharAt(sb.length() - 1).toString();
+            result = sb.deleteCharAt(sb.length() - 2).toString();
         }
         return result;
     }
