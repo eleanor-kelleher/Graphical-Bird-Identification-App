@@ -21,7 +21,7 @@
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <TextView
-        android:id="@+id/textViewBirdName"
+        android:id="@+id/textViewEntryName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageViewBird" />
 
     <TextView
-        android:id="@+id/textViewBirdIrishName"
+        android:id="@+id/textViewEntryIrishName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -42,10 +42,10 @@
         android:text="@string/bird_entry_irish_name"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBirdName" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewEntryName" />
 
     <TextView
-        android:id="@+id/textViewBirdLatinName"
+        android:id="@+id/textViewEntryLatinName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -56,9 +56,9 @@
         android:text="@string/bird_entry_latin_name"
         android:textSize="18sp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewBirdName"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewEntryName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textViewBirdName" />
+        app:layout_constraintStart_toEndOf="@+id/textViewEntryName" />
 
     <View
         android:id="@+id/viewDivider"
@@ -72,7 +72,7 @@
         android:background="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBirdIrishName" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewEntryIrishName" />
 
     <TextView
         android:id="@+id/textViewBirdDescription"

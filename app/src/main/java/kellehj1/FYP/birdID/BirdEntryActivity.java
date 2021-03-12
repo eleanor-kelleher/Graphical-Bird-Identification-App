@@ -21,11 +21,11 @@ public class BirdEntryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bird_entry);
 
         imageViewBird = findViewById(R.id.imageViewBird);
-        textViewName = findViewById(R.id.textViewBirdName);
+        textViewName = findViewById(R.id.textViewEntryName);
         textViewDescription = findViewById(R.id.textViewBirdDescription);
         textViewDescription.setMovementMethod(new ScrollingMovementMethod());
-        textViewIrishName = findViewById(R.id.textViewBirdIrishName);
-        textViewLatinName = findViewById(R.id.textViewBirdLatinName);
+        textViewIrishName = findViewById(R.id.textViewEntryIrishName);
+        textViewLatinName = findViewById(R.id.textViewEntryLatinName);
 
         Intent intent = getIntent();
         birdType = intent.getStringExtra("BIRDTYPE");
@@ -42,7 +42,7 @@ public class BirdEntryActivity extends AppCompatActivity {
         imageViewBird.setImageResource(getBirdImageId(birdData.getAsString("NAME")));
     }
 
-    private int getBirdImageId(String birdName) {
+    public int getBirdImageId(String birdName) {
         String imageFileName = "bird_entry_" + birdName.replaceAll(" ", "_").toLowerCase();
         return getResources().getIdentifier(imageFileName, "drawable", getPackageName());
     }

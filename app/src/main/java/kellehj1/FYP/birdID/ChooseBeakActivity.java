@@ -14,7 +14,7 @@ public class ChooseBeakActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_beak_choice);
+        setContentView(R.layout.activity_choose_beak);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

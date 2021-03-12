@@ -14,7 +14,7 @@ public class ChooseBodyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_body_choice);
+        setContentView(R.layout.activity_choose_body);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
