@@ -165,7 +165,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         //generate query string
         String queryPrefix = "SELECT NAME, LATINNAME, IRISHNAME FROM ";
         StringBuilder querySb = new StringBuilder();
-        for(int i =0; i < tableCount; i++) {
+        for(int i = 0; i < tableCount; i++) {
             querySb.append(queryPrefix).append(tableNames[i]);
             querySb.append(" UNION ");
         }
@@ -196,20 +196,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return birdList;
     }
 
-    public ContentValues getBirdDataFromName(String name, String birdType) {
+    public ContentValues getBirdDataFromName(String name) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues data = new ContentValues();
+        StringBuilder querySb = new StringBuilder();
+        for(int i = 0; i < tableCount; i++) {
+            querySb.append("SELECT NAME, LATINNAME, IRISHNAME, DESCRIPTION FROM ").append(tableNames[i]);
+            querySb.append(" WHERE NAME = \"").append(name).append("\"");
+            querySb.append(" UNION ");
+        }
+        querySb.delete(querySb.length() - 7, querySb.length());
+        String query = querySb.toString();
         try {
-            String dataQuery = "SELECT NAME, LATINNAME, IRISHNAME, DESCRIPTION FROM "
-                    + toTableFormat(birdType) + " WHERE NAME = \"" + name + "\"";
-            Cursor cursor = db.rawQuery(dataQuery, null);
+            Cursor cursor = db.rawQuery(query, null);
             if (cursor != null) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getColumnCount() ; i++) {
                     data.put(cursor.getColumnName(i), cursor.getString(i));
                 }
+                cursor.close();
             }
-            cursor.close();
         } catch (Exception e) {
             Log.e("", "exception : " + e.toString());
         } finally {

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class BirdEntryActivity extends AppCompatActivity {
 
-    String birdType, birdName, name, description, latinName, irishName;
+    String birdName;
     ImageView imageViewBird;
     TextView textViewName, textViewDescription, textViewLatinName, textViewIrishName;
 
@@ -28,11 +28,10 @@ public class BirdEntryActivity extends AppCompatActivity {
         textViewLatinName = findViewById(R.id.textViewEntryLatinName);
 
         Intent intent = getIntent();
-        birdType = intent.getStringExtra("BIRDTYPE");
         birdName = intent.getStringExtra("BIRD_NAME");
 
         DataBaseHelper dbHelper = new DataBaseHelper(BirdEntryActivity.this);
-        ContentValues birdData = dbHelper.getBirdDataFromName(birdName, birdType);
+        ContentValues birdData = dbHelper.getBirdDataFromName(birdName);
         textViewName.setText(birdData.getAsString("NAME"));
         textViewDescription.setText(birdData.getAsString("DESCRIPTION"));
         textViewIrishName.setText(birdData.getAsString("IRISHNAME"));
