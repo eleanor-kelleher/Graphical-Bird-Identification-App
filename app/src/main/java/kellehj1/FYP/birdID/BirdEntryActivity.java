@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ public class BirdEntryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bird_entry);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         imageViewBird = findViewById(R.id.imageViewBird);
         textViewName = findViewById(R.id.textViewEntryName);
@@ -39,6 +41,12 @@ public class BirdEntryActivity extends AppCompatActivity {
 
         imageViewBird = findViewById(R.id.imageViewBird);
         imageViewBird.setImageResource(getBirdImageId(birdData.getAsString("NAME")));
+    }
+
+    // Links the back button to the previous activity
+    public boolean onOptionsItemSelected(MenuItem item){
+        finish();
+        return true;
     }
 
     public int getBirdImageId(String birdName) {
