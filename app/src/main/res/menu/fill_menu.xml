@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/undo"
+        android:icon="@drawable/icon_arrow_undo"
+        android:title="@string/undo"
+        android:visible="true"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/redo"
+        android:icon="@drawable/icon_arrow_redo"
+        android:title="@string/redo"
+        android:visible="true"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/tickNext"
+        android:icon="@drawable/icon_tick"
+        android:title="@string/tick_next"
+        android:visible="true"
+        app:showAsAction="always" />
+
+</menu>

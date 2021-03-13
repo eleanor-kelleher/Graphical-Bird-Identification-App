@@ -33,4 +33,6 @@
     <string name="bird_entry_latin_name">temp latin name</string>
     <string name="bird_entry_irish_name">temp irish name</string>
     <string name="bird_entry_description">temp description</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
 </resources>

@@ -8,12 +8,15 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class BirdListActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
+    ArrayList<String> birdNames = new ArrayList<>();
+    ArrayList<ContentValues> birdList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +27,15 @@ public class BirdListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
 
         DataBaseHelper dbHelper = new DataBaseHelper(BirdListActivity.this);
-        ArrayList<ContentValues> birdList = dbHelper.getBirdList();
+
+        Intent intent = getIntent();
+        birdNames = intent.getStringArrayListExtra("MATCHES");
+        if(birdNames == null) {
+            birdList = dbHelper.getAllBirdsList();
+        }
+        else {
+            birdList = dbHelper.getBirdListFromNames(birdNames);
+        }
 
         ArrayList<Integer> imageIds = new ArrayList<>();
         for(ContentValues cv : birdList) {
@@ -38,9 +49,9 @@ public class BirdListActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
-        startActivity(intent);
-        //startActivityForResult(intent, 0);
+        //Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+        //startActivity(intent);
+        finish();
         return true;
     }
 

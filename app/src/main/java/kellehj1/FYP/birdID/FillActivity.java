@@ -74,21 +74,34 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(String.valueOf(birdNameMatches.size()) + " matches found");
+        actionBar.setTitle(String.valueOf(birdNameMatches.size()) + " matches");
         return super.onPrepareOptionsMenu(menu);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.fill_menu, menu);
         return true;
     }
 
     // Links the back button to the previous activity
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
-        startActivity(intent);
-        //startActivityForResult(intent, 0);
+        if(item.getItemId() == R.id.undo) {
+
+        }
+        else if(item.getItemId() == R.id.redo) {
+
+        }
+        else if(item.getItemId() == R.id.tickNext) {
+            Intent intent = new Intent(getApplicationContext(), BirdListActivity.class);
+            intent.putExtra("MATCHES", birdNameMatches);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+            startActivity(intent);
+            //startActivityForResult(intent, 0);
+        }
         return true;
     }
 

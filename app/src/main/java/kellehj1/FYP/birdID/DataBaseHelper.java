@@ -159,9 +159,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return birds;
     }
 
-    public ArrayList<ContentValues> getBirdList() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<ContentValues> birdList = new ArrayList<>();
+    public ArrayList<ContentValues> getAllBirdsList() {
         //generate query string
         String queryPrefix = "SELECT NAME, LATINNAME, IRISHNAME FROM ";
         StringBuilder querySb = new StringBuilder();
@@ -171,6 +169,30 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         querySb.delete(querySb.length() - 7, querySb.length());
         String query = querySb.toString();
+        return getBirdListFromQuery(query);
+    }
+
+    public ArrayList<ContentValues> getBirdListFromNames(ArrayList<String> birdNames) {
+        //generate query string
+        String queryPrefix = "SELECT NAME, LATINNAME, IRISHNAME FROM ";
+        StringBuilder querySb = new StringBuilder();
+        for(int i = 0; i < tableCount; i++) {
+            querySb.append(queryPrefix).append(tableNames[i]);
+            querySb.append(" WHERE ");
+            for(int j = 0; j < birdNames.size(); j++) {
+                querySb.append("NAME = \"").append(birdNames.get(j)).append("\" OR ");
+            }
+            querySb.delete(querySb.length() - 4, querySb.length());
+            querySb.append(" UNION ");
+        }
+        querySb.delete(querySb.length() - 7, querySb.length());
+        String query = querySb.toString();
+        return getBirdListFromQuery(query);
+    }
+
+    private ArrayList<ContentValues> getBirdListFromQuery(String query) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<ContentValues> birdList = new ArrayList<>();
         try {
             Cursor cursor = db.rawQuery(query, null);
             if (cursor != null) {
@@ -287,18 +309,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             }
         }
         return list;
-    }
-
-    public static String toCSV(String[] array) {
-        String result = "";
-        if (array.length > 0) {
-            StringBuilder sb = new StringBuilder();
-            for (String s : array) {
-                sb.append(s).append(", ");
-            }
-            result = sb.deleteCharAt(sb.length() - 2).toString();
-        }
-        return result;
     }
 
     public static String toTableFormat(String birdType) {
