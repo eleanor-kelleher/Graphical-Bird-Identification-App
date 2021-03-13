@@ -19,8 +19,7 @@ public class ChooseBodyActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
-        startActivity(intent);
+        finish();
         //startActivityForResult(intent, 0);
         return true;
     }

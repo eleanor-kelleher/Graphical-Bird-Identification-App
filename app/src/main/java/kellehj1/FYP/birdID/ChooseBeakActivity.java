@@ -20,8 +20,7 @@ public class ChooseBeakActivity extends AppCompatActivity {
 
     // Links the back button to the previous activity
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent intent = new Intent(getApplicationContext(), ChooseBodyActivity.class);
-        startActivity(intent);
+        finish();
         return true;
     }
 
