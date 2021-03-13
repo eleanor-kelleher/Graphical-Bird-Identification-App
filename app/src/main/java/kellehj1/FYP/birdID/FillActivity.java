@@ -31,10 +31,15 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
     private Button lastButtonClicked;
     private Canvas canvas;
     private Bitmap mask;
+    private Bitmap template;
     private Bitmap coloured;
     private int replacementColour;
     private QueueLinearFloodFiller floodFiller;
     private ArrayList<String> birdNameMatches = new ArrayList<String>();
+    private ArrayList<ArrayList<String>> previousBirdNameMatches = new ArrayList<>();
+    private ArrayList<ArrayList<String>> undoneBirdNameMatches = new ArrayList<>();
+    private ArrayList<Bitmap> previousFills = new ArrayList<>();
+    private ArrayList<Bitmap> undoneFills = new ArrayList<>();
     private String birdType;
 
     private final int screenWidth  = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -60,13 +65,15 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
 
         mask = BitmapFactory.decodeResource(getResources(), maskId); // Mask Image
         mask = Bitmap.createScaledBitmap(mask, screenWidth, screenWidth, true);
-        Bitmap template = BitmapFactory.decodeResource(getResources(), templateId); // Original template image without color
+        template = BitmapFactory.decodeResource(getResources(), templateId); // Original template image without color
         template = Bitmap.createScaledBitmap(template, screenWidth, screenWidth, true);
         coloured = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
         coloured = Bitmap.createScaledBitmap(coloured, screenWidth, screenWidth, true);
 
         canvas = new Canvas(coloured);
         canvas.drawBitmap(template, 0,0, null);
+        previousFills.add(template);
+        previousBirdNameMatches.add(birdNameMatches);
         imageView.setImageBitmap(template);
         invalidateOptionsMenu();
     }
@@ -87,10 +94,34 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
     // Links the back button to the previous activity
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId() == R.id.undo) {
+            if (previousFills.size() > 1) {
+                undoneBirdNameMatches.add(previousBirdNameMatches.remove(previousBirdNameMatches.size() - 1));
+                birdNameMatches = previousBirdNameMatches.get(previousBirdNameMatches.size() - 1);
 
+                undoneFills.add(previousFills.remove(previousFills.size() - 1));
+                canvas.drawBitmap(previousFills.get(previousFills.size() - 1), 0,0, null);
+                imageView.setImageBitmap(previousFills.get(previousFills.size() - 1));
+                //imageView.invalidate();
+                invalidateOptionsMenu();
+            }
+            else {
+                Toast.makeText(FillActivity.this, "nothing to undo", Toast.LENGTH_SHORT).show();
+            }
         }
         else if(item.getItemId() == R.id.redo) {
+            if (undoneFills.size() > 0) {
+                previousBirdNameMatches.add(undoneBirdNameMatches.remove(undoneBirdNameMatches.size() - 1));
+                birdNameMatches = previousBirdNameMatches.get(previousBirdNameMatches.size() - 1);
 
+                previousFills.add(undoneFills.remove(undoneFills.size()-1));
+                canvas.drawBitmap(previousFills.get(previousFills.size() - 1), 0,0, null);
+                imageView.setImageBitmap(previousFills.get(previousFills.size() - 1));
+                //imageView.invalidate();
+                invalidateOptionsMenu();
+            }
+            else {
+                Toast.makeText(FillActivity.this, "nothing to redo", Toast.LENGTH_SHORT).show();
+            }
         }
         else if(item.getItemId() == R.id.tickNext) {
             Intent intent = new Intent(getApplicationContext(), BirdListActivity.class);
@@ -105,34 +136,41 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         return true;
     }
 
-    public boolean onTouch(View arg0, MotionEvent arg1) {
-        int x = (int) arg1.getX();
-        int y = (int) arg1.getY();
-        int selectedPixel = mask.getPixel(x, y);
+    public boolean onTouch(View view, MotionEvent event) {
+        final int action = event.getAction();
+        if(action == MotionEvent.ACTION_DOWN) {
+            int x = (int) event.getX();
+            int y = (int) event.getY();
 
-        int targetColour = coloured.getPixel(x, y);
-        int maskColour = mask.getPixel(x, y);
+            int targetColour = coloured.getPixel(x, y);
+            int maskColour = mask.getPixel(x, y);
 
-        if (targetColour != Color.BLACK && maskColour != Color.BLACK && targetColour != replacementColour) {
+            if (targetColour != Color.BLACK && maskColour != Color.BLACK) {
 
-            String section = dbHelper.getColouredSectionName(maskColour, birdType);
-            ArrayList<String> currentMatches = dbHelper.getMatches(section, replacementColour, birdNameMatches, birdType);
-            if (currentMatches.isEmpty()) {
-                Toast.makeText(FillActivity.this, "There is no such bird.", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                birdNameMatches = currentMatches;
-                floodFiller = new QueueLinearFloodFiller(coloured, targetColour, replacementColour);
-                floodFiller.floodFill(x, y);
-                imageView.setImageBitmap(floodFiller.getImage());
-                imageView.invalidate();
-                invalidateOptionsMenu();
+                String section = dbHelper.getColouredSectionName(maskColour, birdType);
+                ArrayList<String> currentMatches = dbHelper.getMatches(section, replacementColour, birdNameMatches, birdType);
+                if (currentMatches.isEmpty()) {
+                    Toast.makeText(FillActivity.this, "There is no such bird.", Toast.LENGTH_SHORT).show();
+                } else {
+                    birdNameMatches = currentMatches;
+                    //canvas.drawBitmap(previousFills.get(previousFills.size() - 1), 0,0, null);
+                    floodFiller = new QueueLinearFloodFiller(coloured, targetColour, replacementColour);
+                    floodFiller.floodFill(x, y);
+                    Bitmap updatedImage = floodFiller.getImage();
+                    previousFills.add(updatedImage);
+                    undoneFills.clear();
+                    undoneBirdNameMatches.clear();
+                    previousBirdNameMatches.add(birdNameMatches);
+                    imageView.setImageBitmap(previousFills.get(previousFills.size() - 1));
+                    imageView.invalidate();
+                    invalidateOptionsMenu();
 
-                if (birdNameMatches.size() == 1) {
-                    Intent intent = new Intent(getApplicationContext(), BirdEntryActivity.class);
-                    intent.putExtra("BIRDTYPE", birdType);
-                    intent.putExtra("BIRD_NAME", birdNameMatches.get(0));
-                    startActivity(intent);
+                    if (birdNameMatches.size() == 1) {
+                        Intent intent = new Intent(getApplicationContext(), BirdEntryActivity.class);
+                        intent.putExtra("BIRDTYPE", birdType);
+                        intent.putExtra("BIRD_NAME", birdNameMatches.get(0));
+                        startActivity(intent);
+                    }
                 }
             }
         }
