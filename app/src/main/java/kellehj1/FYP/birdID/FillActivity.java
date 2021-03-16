@@ -156,7 +156,7 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
                     //canvas.drawBitmap(previousFills.get(previousFills.size() - 1), 0,0, null);
                     floodFiller = new QueueLinearFloodFiller(coloured, targetColour, replacementColour);
                     floodFiller.floodFill(x, y);
-                    Bitmap updatedImage = floodFiller.getImage();
+                    Bitmap updatedImage = coloured.copy(coloured.getConfig(), true);
                     previousFills.add(updatedImage);
                     undoneFills.clear();
                     undoneBirdNameMatches.clear();
