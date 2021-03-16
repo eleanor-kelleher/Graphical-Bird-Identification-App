@@ -11,6 +11,7 @@
 
     <!-- main colour scheme -->
     <color name="viridian_green">#FF349698</color>
+    <color name="verdigris">#FF3EB4B6</color>
     <color name="ming">#FF256873</color>
     <color name="medium_aquamarine">#FF57CC99</color>
     <color name="light_green">#FF80ED99</color>

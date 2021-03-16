@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -150,7 +151,10 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
                 String section = dbHelper.getColouredSectionName(maskColour, birdType);
                 ArrayList<String> currentMatches = dbHelper.getMatches(section, replacementColour, birdNameMatches, birdType);
                 if (currentMatches.isEmpty()) {
-                    Toast.makeText(FillActivity.this, "There is no such bird.", Toast.LENGTH_SHORT).show();
+                    Toast toast= Toast.makeText(getApplicationContext(),
+                            "There is no such bird.", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
                 } else {
                     birdNameMatches = currentMatches;
                     //canvas.drawBitmap(previousFills.get(previousFills.size() - 1), 0,0, null);

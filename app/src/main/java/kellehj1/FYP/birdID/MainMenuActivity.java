@@ -19,6 +19,8 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        getSupportActionBar().hide();
+
         button_fillscreen = findViewById(R.id.btn_fillscreen);
     }
 
