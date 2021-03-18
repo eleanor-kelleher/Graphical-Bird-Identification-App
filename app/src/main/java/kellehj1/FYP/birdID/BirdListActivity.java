@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActionBar;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,10 +50,11 @@ public class BirdListActivity extends AppCompatActivity {
         ArrayList<Integer> imageIds = new ArrayList<>();
         for(ContentValues cv : birdList) {
             String name = cv.getAsString("NAME");
-            imageIds.add(getBirdImageId(name));
+            cv.put("IMAGE", getBirdImageId(name));
+            //imageIds.add(getBirdImageId(name));
         }
 
-        rvAdapter = new MyAdapter(this, birdList, imageIds);
+        rvAdapter = new MyAdapter(this, birdList);
         recyclerView.setAdapter(rvAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -76,6 +79,7 @@ public class BirdListActivity extends AppCompatActivity {
         inflater.inflate(R.menu.birdlist_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setLayoutParams(new ActionBar.LayoutParams(Gravity.RIGHT));
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

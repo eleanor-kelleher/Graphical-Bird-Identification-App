@@ -130,8 +130,9 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
             startActivity(intent);
         }
         else {
-            Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
-            startActivity(intent);
+            finish();
+            //Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+            //startActivity(intent);
             //startActivityForResult(intent, 0);
         }
         return true;
