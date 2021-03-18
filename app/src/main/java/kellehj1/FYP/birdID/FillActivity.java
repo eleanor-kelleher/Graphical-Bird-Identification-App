@@ -2,6 +2,7 @@ package kellehj1.FYP.birdID;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -11,7 +12,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,7 +20,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.view.View.OnTouchListener;
+import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -28,13 +32,13 @@ import java.util.ArrayList;
 public class FillActivity extends AppCompatActivity implements OnTouchListener {
 
     private DataBaseHelper dbHelper;
+    private CoordinatorLayout cl;
+    private Snackbar snackbar;
     private ImageView imageView;
     private Button lastButtonClicked;
     private Canvas canvas;
-    private Bitmap mask;
-    private Bitmap template;
-    private Bitmap coloured;
-    private int replacementColour;
+    private Bitmap mask, template, coloured;
+    private int replacementColour, errorColour;
     private QueueLinearFloodFiller floodFiller;
     private ArrayList<String> birdNameMatches = new ArrayList<String>();
     private ArrayList<ArrayList<String>> previousBirdNameMatches = new ArrayList<>();
@@ -55,9 +59,23 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         imageView.setOnTouchListener(this);
         lastButtonClicked = findViewById(R.id.button_black);
 
+        cl = (CoordinatorLayout) findViewById(R.id.cl);
+        cl.bringToFront();
+        snackbar = Snackbar.make(cl, "There is no such bird", Snackbar.LENGTH_SHORT);
+        final Snackbar.SnackbarLayout snackBarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
+        for (int i = 0; i < snackBarLayout.getChildCount(); i++) {
+            View parent = snackBarLayout.getChildAt(i);
+            if (parent instanceof LinearLayout) {
+                ((LinearLayout) parent).setRotation(180);
+                break;
+            }
+        }
+
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         birdType = intent.getStringExtra("BIRDTYPE");
+
+        errorColour = getResources().getColor(R.color.bird_error);
 
         dbHelper = new DataBaseHelper(FillActivity.this);
         birdNameMatches = dbHelper.getTableBirdNames(birdType);
@@ -95,34 +113,10 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
     // Links the back button to the previous activity
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId() == R.id.undo) {
-            if (previousFills.size() > 1) {
-                undoneBirdNameMatches.add(previousBirdNameMatches.remove(previousBirdNameMatches.size() - 1));
-                birdNameMatches = previousBirdNameMatches.get(previousBirdNameMatches.size() - 1);
-
-                undoneFills.add(previousFills.remove(previousFills.size() - 1));
-                canvas.drawBitmap(previousFills.get(previousFills.size() - 1), 0,0, null);
-                imageView.setImageBitmap(previousFills.get(previousFills.size() - 1));
-                //imageView.invalidate();
-                invalidateOptionsMenu();
-            }
-            else {
-                Toast.makeText(FillActivity.this, "nothing to undo", Toast.LENGTH_SHORT).show();
-            }
+            undo();
         }
         else if(item.getItemId() == R.id.redo) {
-            if (undoneFills.size() > 0) {
-                previousBirdNameMatches.add(undoneBirdNameMatches.remove(undoneBirdNameMatches.size() - 1));
-                birdNameMatches = previousBirdNameMatches.get(previousBirdNameMatches.size() - 1);
-
-                previousFills.add(undoneFills.remove(undoneFills.size()-1));
-                canvas.drawBitmap(previousFills.get(previousFills.size() - 1), 0,0, null);
-                imageView.setImageBitmap(previousFills.get(previousFills.size() - 1));
-                //imageView.invalidate();
-                invalidateOptionsMenu();
-            }
-            else {
-                Toast.makeText(FillActivity.this, "nothing to redo", Toast.LENGTH_SHORT).show();
-            }
+            redo();
         }
         else if(item.getItemId() == R.id.tickNext) {
             Intent intent = new Intent(getApplicationContext(), BirdListActivity.class);
@@ -131,11 +125,40 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         }
         else {
             finish();
-            //Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
-            //startActivity(intent);
-            //startActivityForResult(intent, 0);
         }
         return true;
+    }
+
+    private void undo() {
+        if (previousFills.size() > 1) {
+            undoneBirdNameMatches.add(previousBirdNameMatches.remove(previousBirdNameMatches.size() - 1));
+            birdNameMatches = previousBirdNameMatches.get(previousBirdNameMatches.size() - 1);
+
+            undoneFills.add(previousFills.remove(previousFills.size() - 1));
+            canvas.drawBitmap(previousFills.get(previousFills.size() - 1),0,0, null);
+            imageView.setImageBitmap(previousFills.get(previousFills.size() - 1));
+            //imageView.invalidate();
+            invalidateOptionsMenu();
+        }
+        else {
+            Toast.makeText(FillActivity.this, "nothing to undo", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void redo() {
+        if (undoneFills.size() > 0) {
+            previousBirdNameMatches.add(undoneBirdNameMatches.remove(undoneBirdNameMatches.size() - 1));
+            birdNameMatches = previousBirdNameMatches.get(previousBirdNameMatches.size() - 1);
+
+            previousFills.add(undoneFills.remove(undoneFills.size()-1));
+            canvas.drawBitmap(previousFills.get(previousFills.size() - 1), 0,0, null);
+            imageView.setImageBitmap(previousFills.get(previousFills.size() - 1));
+            //imageView.invalidate();
+            invalidateOptionsMenu();
+        }
+        else {
+            Toast.makeText(FillActivity.this, "nothing to redo", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public boolean onTouch(View view, MotionEvent event) {
@@ -152,10 +175,10 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
                 String section = dbHelper.getColouredSectionName(maskColour, birdType);
                 ArrayList<String> currentMatches = dbHelper.getMatches(section, replacementColour, birdNameMatches, birdType);
                 if (currentMatches.isEmpty()) {
-                    Toast toast= Toast.makeText(getApplicationContext(),
-                            "There is no such bird.", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast.show();
+
+                    snackbar.show();
+                    //Toast.makeText(getApplicationContext(), "There is no such bird.", Toast.LENGTH_SHORT).show();
+
                 } else {
                     birdNameMatches = currentMatches;
                     //canvas.drawBitmap(previousFills.get(previousFills.size() - 1), 0,0, null);

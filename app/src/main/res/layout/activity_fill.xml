@@ -7,6 +7,16 @@
     android:background="@color/timberwolf"
     tools:context="kellehj1.FYP.birdID.FillActivity">
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/cl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/imageViewTemplate"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        android:rotation="180"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/imageViewTemplate"
         android:contentDescription="@string/fill_image_description"

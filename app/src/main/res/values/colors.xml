@@ -34,4 +34,5 @@
     <color name="button_blue">#FF6178D3</color>
     <color name="button_orange">#FFFF7F27</color>
     <color name="button_green">#FFA7E463</color>
+    <color name="bird_error">#FFD1868A</color>
 </resources>
