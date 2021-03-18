@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,18 +15,20 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> implements Filterable {
 
     ArrayList<ContentValues> birdList;
-    ArrayList<Integer> imageIds;
+    ArrayList<ContentValues> birdListFull;
     Context context;
 
-    public MyAdapter(Context context, ArrayList<ContentValues> birdList, ArrayList<Integer> imageIds) {
+    public MyAdapter(Context context, ArrayList<ContentValues> birdList) {
         this.context = context;
         this.birdList = birdList;
-        this.imageIds = imageIds;
+        birdListFull = new ArrayList<>(birdList);
         splitBirdNames(birdList);
     }
 
@@ -38,10 +42,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.textViewName.setText(birdList.get(position).getAsString("NAME"));
-        holder.textViewLatinName.setText(birdList.get(position).getAsString("LATINNAME"));
-        holder.textViewIrishName.setText(birdList.get(position).getAsString("IRISHNAME"));
-        holder.imageViewRow.setImageResource(imageIds.get(position));
+        ContentValues currentBird = birdList.get(position);
+        holder.textViewName.setText(currentBird.getAsString("NAME"));
+        holder.textViewLatinName.setText(currentBird.getAsString("LATINNAME"));
+        holder.textViewIrishName.setText(currentBird.getAsString("IRISHNAME"));
+        holder.imageViewRow.setImageResource(currentBird.getAsInteger("IMAGE"));
 
         holder.rowLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,8 +60,42 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public int getItemCount() {
-        return imageIds.size();
+        return birdList.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return searchFilter;
+    }
+
+    private Filter searchFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<ContentValues> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0 ) {
+                filteredList.addAll(birdListFull);
+
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (ContentValues bird : birdListFull) {
+                    if (bird.getAsString("NAME").toLowerCase().contains(filterPattern)) {
+                        filteredList.add(bird);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            birdList.clear();
+            birdList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
