@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,5 +53,10 @@ public class BirdEntryActivity extends AppCompatActivity {
     public int getBirdImageId(String birdName) {
         String imageFileName = "bird_entry_" + birdName.replaceAll(" ", "_").toLowerCase();
         return getResources().getIdentifier(imageFileName, "drawable", getPackageName());
+    }
+
+    public void goHome(View view) {
+        Intent intent = new Intent(this, MainMenuActivity.class);
+        startActivity(intent);
     }
 }

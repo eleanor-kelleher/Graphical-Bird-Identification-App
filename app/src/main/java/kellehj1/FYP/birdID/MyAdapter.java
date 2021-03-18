@@ -23,14 +23,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
 
     ArrayList<ContentValues> birdList;
     ArrayList<ContentValues> birdListFull;
-    ArrayList<Integer> imageIds;
     Context context;
 
-    public MyAdapter(Context context, ArrayList<ContentValues> birdList, ArrayList<Integer> imageIds) {
+    public MyAdapter(Context context, ArrayList<ContentValues> birdList) {
         this.context = context;
         this.birdList = birdList;
         birdListFull = new ArrayList<>(birdList);
-        this.imageIds = imageIds;
         splitBirdNames(birdList);
     }
 
@@ -44,10 +42,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.textViewName.setText(birdList.get(position).getAsString("NAME"));
-        holder.textViewLatinName.setText(birdList.get(position).getAsString("LATINNAME"));
-        holder.textViewIrishName.setText(birdList.get(position).getAsString("IRISHNAME"));
-        holder.imageViewRow.setImageResource(imageIds.get(position));
+        ContentValues currentBird = birdList.get(position);
+        holder.textViewName.setText(currentBird.getAsString("NAME"));
+        holder.textViewLatinName.setText(currentBird.getAsString("LATINNAME"));
+        holder.textViewIrishName.setText(currentBird.getAsString("IRISHNAME"));
+        holder.imageViewRow.setImageResource(currentBird.getAsInteger("IMAGE"));
 
         holder.rowLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +60,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
 
     @Override
     public int getItemCount() {
-        return imageIds.size();
+        return birdList.size();
     }
 
     @Override
@@ -75,6 +74,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
             ArrayList<ContentValues> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0 ) {
                 filteredList.addAll(birdListFull);
+
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
