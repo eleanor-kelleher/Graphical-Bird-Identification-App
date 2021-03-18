@@ -35,4 +35,5 @@
     <string name="bird_entry_description">temp description</string>
     <string name="undo">Undo</string>
     <string name="redo">Redo</string>
+    <string name="icon_search">Search</string>
 </resources>

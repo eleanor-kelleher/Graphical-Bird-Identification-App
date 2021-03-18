@@ -7,7 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -15,6 +22,7 @@ import java.util.ArrayList;
 public class BirdListActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
+    MyAdapter rvAdapter;
     ArrayList<String> birdNames = new ArrayList<>();
     ArrayList<ContentValues> birdList = new ArrayList<>();
 
@@ -43,7 +51,7 @@ public class BirdListActivity extends AppCompatActivity {
             imageIds.add(getBirdImageId(name));
         }
 
-        MyAdapter rvAdapter = new MyAdapter(this, birdList, imageIds);
+        rvAdapter = new MyAdapter(this, birdList, imageIds);
         recyclerView.setAdapter(rvAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -51,7 +59,9 @@ public class BirdListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         //Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
         //startActivity(intent);
-        finish();
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
         return true;
     }
 
@@ -60,4 +70,23 @@ public class BirdListActivity extends AppCompatActivity {
         return getResources().getIdentifier(imageFileName, "drawable", getPackageName());
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.birdlist_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) { return false; }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                rvAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        return true;
+    }
 }

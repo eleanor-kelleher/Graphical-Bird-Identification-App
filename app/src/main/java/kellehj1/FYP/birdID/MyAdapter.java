@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,17 +15,21 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> implements Filterable {
 
     ArrayList<ContentValues> birdList;
+    ArrayList<ContentValues> birdListFull;
     ArrayList<Integer> imageIds;
     Context context;
 
     public MyAdapter(Context context, ArrayList<ContentValues> birdList, ArrayList<Integer> imageIds) {
         this.context = context;
         this.birdList = birdList;
+        birdListFull = new ArrayList<>(birdList);
         this.imageIds = imageIds;
         splitBirdNames(birdList);
     }
@@ -57,6 +63,39 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public int getItemCount() {
         return imageIds.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return searchFilter;
+    }
+
+    private Filter searchFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<ContentValues> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0 ) {
+                filteredList.addAll(birdListFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (ContentValues bird : birdListFull) {
+                    if (bird.getAsString("NAME").toLowerCase().contains(filterPattern)) {
+                        filteredList.add(bird);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            birdList.clear();
+            birdList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
