@@ -15,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         getSupportActionBar().hide();
-
         DataBaseHelper db = createTables();
 
         goToMenu();
@@ -24,21 +23,19 @@ public class MainActivity extends AppCompatActivity {
     private DataBaseHelper createTables() {
         DataBaseHelper dbHelper = new DataBaseHelper(MainActivity.this);
 
+        // if the count of birds in the database is > 0, then the db is already filled
         if (dbHelper.getAllBirdsCount() > 0) {
             Log.i("Initial Setup", "BIRDS.db already exists");
-            Toast.makeText(MainActivity.this, "BIRDS.db already exists",
-                    Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this, "BIRDS.db already exists", Toast.LENGTH_SHORT).show();
         }
         else {
             for (String birdType : Constants.birdTypes) {
                 if (dbHelper.addBirds(birdType)) {
                     Log.i("Initial Setup", birdType + " table created");
-                    Toast.makeText(MainActivity.this, birdType + " table created",
-                            Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(MainActivity.this, birdType + " table created", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e("Initial Setup", "Error creating" + birdType + " table");
-                    Toast.makeText(MainActivity.this, "Error creating" + birdType + " table",
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Error creating" + birdType + " table", Toast.LENGTH_SHORT).show();
                 }
             }
         }

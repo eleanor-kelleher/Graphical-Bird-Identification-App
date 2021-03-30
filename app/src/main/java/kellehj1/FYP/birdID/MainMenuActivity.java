@@ -10,27 +10,25 @@ import android.widget.EditText;
 
 public class MainMenuActivity extends AppCompatActivity {
 
-    Button button_fillscreen, button_create_db;
-    EditText editText;
-
-    public static final String EXTRA_MESSAGE = "kellehj1.FYP.birdID.MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
         getSupportActionBar().hide();
-
-        button_fillscreen = findViewById(R.id.btn_fillscreen);
     }
 
-    /** Called when the user taps the New Bird ID button */
+    /**
+     * Called when the user taps the New Bird ID button, brings the user to the bird ID activity
+     */
     public void newBirdID(View view) {
         Intent intent = new Intent(this, ChooseBodyActivity.class);
         startActivity(intent);
     }
 
-    /** Called when the user taps the Bird Database button */
+    /**
+     * Called when the user taps the Bird Database button, brings the user to the bird list activity
+     */
     public void viewBirdList(View view) {
         Intent intent = new Intent(this, BirdListActivity.class);
         startActivity(intent);

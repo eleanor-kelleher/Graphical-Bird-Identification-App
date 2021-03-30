@@ -29,7 +29,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
         this.context = context;
         this.birdList = birdList;
         birdListFull = new ArrayList<>(birdList);
-        splitBirdNames(birdList);
     }
 
     @NonNull
@@ -48,13 +47,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
         holder.textViewIrishName.setText(currentBird.getAsString("IRISHNAME"));
         holder.imageViewRow.setImageResource(currentBird.getAsInteger("IMAGE"));
 
-        holder.rowLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, BirdEntryActivity.class);
-                intent.putExtra("BIRD_NAME", holder.textViewName.getText());
-                context.startActivity(intent);
-            }
+        // lambda function for OnClickListener
+        holder.rowLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(context, BirdEntryActivity.class);
+            intent.putExtra("BIRD_NAME", holder.textViewName.getText());
+            context.startActivity(intent);
         });
     }
 
@@ -110,14 +107,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
             textViewIrishName = itemView.findViewById(R.id.textViewRowIrishName);
             imageViewRow = itemView.findViewById(R.id.imageViewRow);
             rowLayout = itemView.findViewById(R.id.rowLayout);
-        }
-    }
-
-    private void splitBirdNames(ArrayList<ContentValues> birdList) {
-        for( int i = 0; i < birdList.size(); i++ ) {
-            birdList.get(i).getAsString("NAME");
-            birdList.get(i).getAsString("IRISHNAME");
-            birdList.get(i).getAsString("LATINNAME");
         }
     }
 }

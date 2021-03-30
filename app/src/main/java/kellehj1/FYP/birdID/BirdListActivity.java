@@ -36,41 +36,32 @@ public class BirdListActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
 
+        // instantiate access to the DB
         DataBaseHelper dbHelper = new DataBaseHelper(BirdListActivity.this);
 
+        /*
+        If coming from Fill Tool, may contain a list of bird "matches" stored as intent, narrows
+        down the search criteria. Otherwise, gets all birds.
+         */
         Intent intent = getIntent();
         birdNames = intent.getStringArrayListExtra("MATCHES");
         if(birdNames == null) {
             birdList = dbHelper.getAllBirdsList();
-        }
-        else {
+        } else {
             birdList = dbHelper.getBirdListFromNames(birdNames);
         }
 
-        ArrayList<Integer> imageIds = new ArrayList<>();
         for(ContentValues cv : birdList) {
             String name = cv.getAsString("NAME");
             cv.put("IMAGE", getBirdImageId(name));
-            //imageIds.add(getBirdImageId(name));
         }
 
+        // RecyclerView adapter setup
         rvAdapter = new MyAdapter(this, birdList);
         recyclerView.setAdapter(rvAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        //Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
-        //startActivity(intent);
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-        return true;
-    }
-
-    public int getBirdImageId(String birdName) {
-        String imageFileName = "bird_entry_" + birdName.replaceAll(" ", "_").toLowerCase();
-        return getResources().getIdentifier(imageFileName, "drawable", getPackageName());
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -93,4 +84,29 @@ public class BirdListActivity extends AppCompatActivity {
         });
         return true;
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(String.valueOf(getString(R.string.bird_list_title) + " (" + birdList.size()) + ")");
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return true;
+    }
+
+    /**
+     * Gets the image resource file associated with the bird
+     * @param birdName, the name of the bird
+     * @return the path to the resource file image
+     */
+    public int getBirdImageId(String birdName) {
+        String imageFileName = "bird_entry_" + birdName.replaceAll(" ", "_").toLowerCase();
+        return getResources().getIdentifier(imageFileName, "drawable", getPackageName());
+    }
+
 }

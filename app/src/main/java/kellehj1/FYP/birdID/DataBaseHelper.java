@@ -15,7 +15,6 @@ import org.json.*;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -109,12 +108,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public int getAllBirdsCount() {
         int count = 0;
         for(String birdType : birdTypes) {
-            count += getBirdsCount(birdType);
+            count += getBirdTypeCount(birdType);
         }
         return count;
     }
 
-    public int getBirdsCount(String birdType) {
+    public int getBirdTypeCount(String birdType) {
         String countQuery = "SELECT * FROM " + toTableFormat(birdType);
         SQLiteDatabase db = this.getReadableDatabase();
         int count = 0;
@@ -131,12 +130,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public ArrayList<String> getAllBirdNames() {
         ArrayList<String> allBirds = new ArrayList<String>();
         for(String birdType : birdTypes) {
-            allBirds.addAll(getTableBirdNames(birdType));
+            allBirds.addAll(getBirdTypeNames(birdType));
         }
         return allBirds;
     }
 
-    public ArrayList<String> getTableBirdNames(String birdType) {
+    public ArrayList<String> getBirdTypeNames(String birdType) {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<String>  birds = new ArrayList<String>();
         try {

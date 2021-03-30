@@ -23,11 +23,9 @@ import android.view.View.OnTouchListener;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-
 
 public class FillActivity extends AppCompatActivity implements OnTouchListener {
 
@@ -78,7 +76,7 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
         errorColour = getResources().getColor(R.color.bird_error);
 
         dbHelper = new DataBaseHelper(FillActivity.this);
-        birdNameMatches = dbHelper.getTableBirdNames(birdType);
+        birdNameMatches = dbHelper.getBirdTypeNames(birdType);
         int maskId = getResources().getIdentifier("mask_" + birdType, "drawable", getPackageName());
         int templateId = getResources().getIdentifier("template_" + birdType, "drawable", getPackageName());
 
@@ -171,17 +169,18 @@ public class FillActivity extends AppCompatActivity implements OnTouchListener {
             int maskColour = mask.getPixel(x, y);
 
             if (targetColour != Color.BLACK && maskColour != Color.BLACK) {
-
+                //long startTime = System.nanoTime();
                 String section = dbHelper.getColouredSectionName(maskColour, birdType);
                 ArrayList<String> currentMatches = dbHelper.getMatches(section, replacementColour, birdNameMatches, birdType);
+                //long endTime = System.nanoTime();
+                //long duration = (endTime - startTime) / 1000000;
+
+                //Toast.makeText(getApplicationContext(), duration + "ms", Toast.LENGTH_SHORT).show();
                 if (currentMatches.isEmpty()) {
-
                     snackbar.show();
-                    //Toast.makeText(getApplicationContext(), "There is no such bird.", Toast.LENGTH_SHORT).show();
-
                 } else {
                     birdNameMatches = currentMatches;
-                    //canvas.drawBitmap(previousFills.get(previousFills.size() - 1), 0,0, null);
+
                     floodFiller = new QueueLinearFloodFiller(coloured, targetColour, replacementColour);
                     floodFiller.floodFill(x, y);
                     Bitmap updatedImage = coloured.copy(coloured.getConfig(), true);
